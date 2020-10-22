@@ -1,0 +1,22 @@
+{
+  "name": "bill-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KelalArrzenai/bill-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KelalArrzenai/bill-tracker/issues"
+  },
+  "homepage": "https://github.com/KelalArrzenai/bill-tracker#readme",
+  "dependencies": {
+    "react": "^17.0.1"
+  }
+}
