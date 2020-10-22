@@ -16,7 +16,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="4B7631" href="https://material-ui.com/">
         Bill Tracker
       </Link>{' '}
       {new Date().getFullYear()}
@@ -48,8 +48,8 @@ export default function Login() {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Sign in
+        <Typography component="h1" variant="h4">
+          Login to Bill Tracker
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -66,6 +66,7 @@ export default function Login() {
           <TextField
             variant="outlined"
             margin="normal"
+            color="4B7631"
             required
             fullWidth
             name="password"
@@ -88,11 +89,6 @@ export default function Login() {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link to={process.env.PUBLIC_URL + "/signup"} variant="body2">
                 {"Don't have an account? Sign Up"}
