@@ -72,7 +72,7 @@ export default function NewBill() {
         />
         <TextField
           id="outlined-select-frequency"
-          label=""
+          label="Frequency"
           value={freqency}
           onChange={handleFreqChange}
           helperText="Select if this is recurring"
