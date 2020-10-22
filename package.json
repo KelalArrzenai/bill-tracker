@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/KelalArrzenai/bill-tracker#readme",
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "react": "^17.0.1"
   }
 }
