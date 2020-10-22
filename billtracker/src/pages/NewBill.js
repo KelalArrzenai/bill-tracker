@@ -1,112 +1,99 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from '@material-ui/core/MenuItem';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: '25ch',
+    width: "25ch",
   },
 }));
 
-const currencies = [
+const frequency = [
   {
-    value: 'once',
-    label: 'One-Time',
+    value: "once",
+    label: "One-Time",
   },
   {
-    value: 'weekly',
-    label: 'Weekly',
+    value: "weekly",
+    label: "Weekly",
   },
   {
-    value: 'bi-monthly',
-    label: 'Bi-Monthly',
+    value: "bi-monthly",
+    label: "Bi-Monthly",
   },
   {
-    value: 'monthly',
-    label: 'Monthly',
+    value: "monthly",
+    label: "Monthly",
   },
   {
-    value: 'annually',
-    label: 'Annually',
-  }
+    value: "annually",
+    label: "Annually",
+  },
 ];
 
 export default function NewBill() {
   const classes = useStyles();
-  const [frequency, setFreq] = React.useState('once');
+  const [frequency, setFreq] = React.useState("once");
 
-  const handleChange = (event) => {
+  const handleFreqChange = (event) => {
     setFreq(event.target.value);
   };
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-    <div className={classes.root}>
       <div>
         <TextField
-          id="outlined-full-width"
-          label="Name"
-          style={{ margin: 8 }}
-          placeholder="Name of Bill"
-          fullWidth
+          id="outlined-required"
+          label="Name of Bill"
           margin="normal"
+          className={classes.textField}
           InputLabelProps={{
             shrink: true,
           }}
           variant="outlined"
         />
         <TextField
+          id="outlined-required"
           label="Date"
-          id="outlined-margin-none"
-          defaultValue=""
+          margin="normal"
           className={classes.textField}
-          helperText="Some important text"
+          InputLabelProps={{
+            shrink: true,
+          }}
           variant="outlined"
         />
         <TextField
-          id="outlined-select-currency"
-          select
-          label="Frequency"
+          id="outlined-select-frequency"
+          label=""
           value={freqency}
-          onChange={handleChange}
-          SelectProps={{
-            native: true,
-          }}
+          onChange={handleFreqChange}
           helperText="Select if this is recurring"
           variant="outlined"
         >
           {frequency.map((option) => (
-            <option key={option.value} value={option.value}>
+            <MenuItem key={option.value} value={option.value}>
               {option.label}
-            </option>
+            </MenuItem>
           ))}
         </TextField>
         <TextField
-          label="Dense"
-          id="outlined-margin-dense"
-          defaultValue="Default Value"
-          className={classes.textField}
-          helperText="Some important text"
-          margin="dense"
-          variant="outlined"
-        />
-        <TextField
-          label="Normal"
           id="outlined-margin-normal"
-          defaultValue="Default Value"
+          label="Projected Amount"
+          type="number"
           className={classes.textField}
-          helperText="Some important text"
-          margin="normal"
+          startAdornment={<InputAdornment position="start">$</InputAdornment>}
+          helperText="You can update this value later"
           variant="outlined"
         />
       </div>
-    </div>
-  </form>
+    </form>
   );
 }
