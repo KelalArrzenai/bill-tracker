@@ -22,6 +22,9 @@
     "if-env": "^1.0.4",
     "mongoose": "^5.10.9",
     "node-pushnotifications": "^1.4.2",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^6.0.1",
     "react": "^17.0.1"
   }
 }
