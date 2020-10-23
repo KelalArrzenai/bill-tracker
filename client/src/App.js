@@ -1,10 +1,8 @@
 import React from 'react';
-import './App.css';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import User from "./pages/User";
-import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
