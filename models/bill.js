@@ -10,6 +10,6 @@ const billSchema = new Schema({
   userId: { type: Number, required: true }
 });
 
-const Bill = mongoose.model('Bill', billSchema);
+const Bill = mongoose.model('Bills', billSchema);
 
 module.exports = Bill;
