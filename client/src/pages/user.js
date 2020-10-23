@@ -14,7 +14,7 @@ import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-      margin: 'auto',
+      marginTop: theme.spacing(8),
     },
     cardHeader: {
       padding: theme.spacing(1, 2),
@@ -157,4 +157,5 @@ const useStyles = makeStyles((theme) => ({
       </Grid>
     );
   }
-  
+
+  export default User;
