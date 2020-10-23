@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const billsController = require("../../controllers/bills");
+const billsController = require("../../controllers/billController.js");
 
 router.route("/")
     .get(billsController.findByUserId)
