@@ -1,2 +1,4 @@
-node_modules
-
+node_modules/
+team.md 
+.vscode/
+.DS_store
