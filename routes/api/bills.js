@@ -1,12 +1,11 @@
 const router = require("express").Router();
-const billsController = require("../../controllers/billController.js");
 
 router.route("/")
     .get(billsController.findByUserId)
     .post(billsController.create);
 
 router
-    .route("/:userId")
+    .route("/:id")
     .get(billsController.findByUserId)
     .put(billsController.update)
     .delete(billsController.remove);
