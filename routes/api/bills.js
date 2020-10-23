@@ -6,7 +6,7 @@ router.route("/")
     .post(billsController.create);
 
 router
-    .route("/:userId")
+    .route("/:id")
     .get(billsController.findByUserId)
     .put(billsController.update)
     .delete(billsController.remove);
