@@ -5,9 +5,9 @@ import Grid from "@material-ui/core/Grid";
 import useStyles from "../components/login/Styles";
 import Typography from "@material-ui/core/Typography";
 
-export default function Form() {
-  const classes = useStyles();
 
+export default function Form() {
+  const classes = useState([]);
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
@@ -82,3 +82,4 @@ export default function Form() {
     </div>
   );
 }
+
