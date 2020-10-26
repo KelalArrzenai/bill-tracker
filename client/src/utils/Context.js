@@ -3,7 +3,8 @@ import React from 'react';
 const UserContext = React.createContext({
   username: '',
   email: '',
-  userId: ''
+  userId: '',
+  onSubmit: () => undefined
 });
 
 export default UserContext;

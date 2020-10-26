@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import User from "./pages/user";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import UserContext from './utils/Context';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -29,15 +30,17 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <Router>
-        <Switch>
-          <Route exact path={process.env.PUBLIC_URL + "/"} component={Login}/>
-          <Route exact path={process.env.PUBLIC_URL + "/login"} component={Login}/>
-          <Route exact path={process.env.PUBLIC_URL + "/signup"} component={Signup}/>
-          <Route path={process.env.PUBLIC_URL + "/:id"} component={User}/>
-        </Switch>
-      </Router>    
+      <CssBaseline />
+      <UserContext.Provider>
+        <Router>
+          <Switch>
+            <Route exact path={process.env.PUBLIC_URL + "/"} component={Login} />
+            <Route exact path={process.env.PUBLIC_URL + "/login"} component={Login} />
+            <Route exact path={process.env.PUBLIC_URL + "/signup"} component={Signup} />
+            <Route path={process.env.PUBLIC_URL + "/:id"} component={User} />
+          </Switch>
+        </Router>
+      </UserContext.Provider>
     </ThemeProvider>
   );
 }
