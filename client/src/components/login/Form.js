@@ -35,7 +35,7 @@ export default function Form() {
 
   return (
     <div className={classes.paper}>
-      <Typography component="h1" variant="h4">
+      <Typography component="h1" variant="h4" color="secondary">
         Login to Bill Tracker
         </Typography>
       <form className={classes.form} noValidate>

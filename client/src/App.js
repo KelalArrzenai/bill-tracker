@@ -1,4 +1,5 @@
 import React from 'react';
+import "./App.css";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -9,10 +10,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const font =  "'Exo 2', sans-serif";
 
   const theme = React.useMemo(
     () =>
       createMuiTheme({
+        typography: {
+          fontFamily: font,
+        },
         palette: {
           type: prefersDarkMode ? 'dark' : 'light',
           primary: {
@@ -20,7 +25,6 @@ function App() {
           },
           secondary: {
             main: '#4db8ff',
-            contrastText: '#ffcc00',
           }
         },
       }),
