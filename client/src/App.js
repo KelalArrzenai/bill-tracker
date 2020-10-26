@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import User from "./pages/User";
+import User from "./pages/user";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';

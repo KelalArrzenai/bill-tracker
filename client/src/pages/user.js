@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import API from "../utils/API";
-import formObject from "@material-ui/core";
-
 
 function User() {
   const [user, setUser] = useState([]);
@@ -16,23 +14,9 @@ function User() {
       .catch(err => console.log(err));
   }
 
-  function handleInputChange(event) {
+  function handleSubmit(event) {
     const { name, value } = event.target;
-    setFormObject({...formObject, [name]: value})
-  };
-
-  function handleFormSubmit(event) {
-    event.preventDefault();
-    if (formObject.title && formObject.author) {
-      API.saveBook({
-        title: formObject.title,
-        author: formObject.author,
-        synopsis: formObject.synopsis
-      })
-        .then(res => loadBooks())
-        .catch(err => console.log(err));
-    }
-  };
+  }
 }
 
 export default User;
