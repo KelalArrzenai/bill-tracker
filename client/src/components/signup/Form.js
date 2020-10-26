@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 
@@ -27,7 +27,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Form() {
-  const classes = useState([]);
+
+  const classes = useStyles();
+
+  function handleSubmit(event) {
+    const { name, value } = event.target;
+  }
+
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h5">
@@ -93,7 +99,7 @@ export default function Form() {
         </Button>
         <Grid container justify="center">
           <Grid item>
-            <Link href="#" variant="body2">
+            <Link to="/login" variant="body2">
               Already have an account? Sign in
             </Link>
           </Grid>

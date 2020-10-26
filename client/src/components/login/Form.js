@@ -1,11 +1,11 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -26,7 +26,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Form() {
+  
   const classes = useStyles();
+
+  function handleSubmit(event) {
+    const { name, value } = event.target;
+  }
 
   return (
     <div className={classes.paper}>
@@ -72,7 +77,7 @@ export default function Form() {
           </Button>
         <Grid container>
           <Grid item>
-            <Link to={process.env.PUBLIC_URL + "/signup"} variant="body2">
+            <Link to="/signup" variant="body2">
               {"Don't have an account? Sign Up"}
             </Link>
           </Grid>
