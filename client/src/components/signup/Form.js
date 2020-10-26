@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useState, useContext }  from "react";
+import UserContext from '../../utils/Context';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -28,10 +29,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Form() {
 
+  const user = useContext(UserContext);
+  const emailRef = useRef();
+  const firstRef = useRef();
+  const lastRef = useRef();
   const classes = useStyles();
-
-  function handleSubmit(event) {
-    const { name, value } = event.target;
+  
+  function handleSubmit() {
+    console.log(emailRef.current, firstRef.current, lastRef.current);
+    console.log(user);
   }
 
   return (
@@ -51,6 +57,7 @@ export default function Form() {
               id="firstName"
               label="First Name"
               autoFocus
+              ref={firstRef}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -62,6 +69,7 @@ export default function Form() {
               label="Last Name"
               name="lastName"
               autoComplete="lname"
+              ref={lastRef}
             />
           </Grid>
           <Grid item xs={12}>
@@ -73,6 +81,7 @@ export default function Form() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              ref={emailRef}
             />
           </Grid>
           <Grid item xs={12}>
@@ -94,6 +103,7 @@ export default function Form() {
           variant="contained"
           color="primary"
           className={classes.submit}
+          onClick={handleSubmit()}
         >
           Sign Up
         </Button>
