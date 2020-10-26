@@ -4,8 +4,6 @@ import Container from '@material-ui/core/Container';
 import Copyright from '../components/copyright/Copyright';
 import Form from '../components/signup/Form';
 
-
-
 export default function Signup() {
   return (
     <Container component="main" maxWidth="xs">
