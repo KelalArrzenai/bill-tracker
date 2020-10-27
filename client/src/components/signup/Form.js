@@ -1,5 +1,5 @@
-import React, { useRef, useState, useContext }  from "react";
-import UserContext from '../../utils/Context';
+import React, { useRef }  from "react";
+import { useUserContext } from '../../utils/Context';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -28,17 +28,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Form() {
-
-  const user = useContext(UserContext);
+  const dispatch = useUserContext();
+  const classes = useStyles();
+  const lastRef = useRef();
   const emailRef = useRef();
   const firstRef = useRef();
-  const lastRef = useRef();
-  const classes = useStyles();
-  
-  function handleSubmit() {
-    console.log(emailRef.current, firstRef.current, lastRef.current);
-    console.log(user);
-  }
 
   return (
     <div className={classes.paper}>
@@ -103,7 +97,7 @@ export default function Form() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onClick={handleSubmit()}
+          onSubmit={() => dispatch('set')}
         >
           Sign Up
         </Button>
