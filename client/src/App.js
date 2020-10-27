@@ -7,7 +7,7 @@ import User from "./pages/user";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import UserContext from './utils/Context';
+import { UserProvider } from './utils/Context';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -35,7 +35,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <UserContext.Provider>
+      <UserProvider>
         <Router>
           <Switch>
             <Route exact path={process.env.PUBLIC_URL + "/"} component={Login} />
@@ -44,7 +44,7 @@ function App() {
             <Route path={process.env.PUBLIC_URL + "/:id"} component={User} />
           </Switch>
         </Router>
-      </UserContext.Provider>
+      </UserProvider>
     </ThemeProvider>
   );
 }
