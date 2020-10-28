@@ -14,6 +14,8 @@ const useStyles = makeStyles({
   },
 });
 
+
+
 export default function ImgMediaCard() {
   const classes = useStyles();
 
@@ -24,7 +26,7 @@ export default function ImgMediaCard() {
           component="img"
           alt="Money Header"
           height="300"
-          image="/moneybag.jpg"
+          image="./header.jpg"
           title="Bill Tracker"
         />
         <CardContent>
