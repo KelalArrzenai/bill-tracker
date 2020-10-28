@@ -1,4 +1,4 @@
-import React, { useRef }  from "react";
+import React, { useRef, Redirect }  from "react";
 import { useUserContext } from '../../utils/Context';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -97,7 +97,10 @@ export default function Form() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onSubmit={() => dispatch('set')}
+          onSubmit={() => {
+            dispatch('set');
+            return <Redirect to="/login" />;
+          }}
         >
           Sign Up
         </Button>
