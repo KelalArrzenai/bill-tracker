@@ -1,4 +1,4 @@
-import React, { useRef, Redirect }  from "react";
+import React, { Redirect, useState }  from "react";
 import { useUserContext } from '../../utils/Context';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
+import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,11 +29,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Form() {
-  const dispatch = useUserContext();
+  const [state, dispatch] = useUserContext();
   const classes = useStyles();
-  const lastRef = useRef();
-  const emailRef = useRef();
-  const firstRef = useRef();
+
+  const [form, setForm] = useState({});
+  
+  function handleSubmit() {
+    dispatch({type:'set', data: form});
+  }
+
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+
+    setForm({...form, [name]:value})
+  }
 
   return (
     <div className={classes.paper}>
@@ -50,8 +61,8 @@ export default function Form() {
               fullWidth
               id="firstName"
               label="First Name"
-              autoFocus
-              ref={firstRef}
+              autoFocus 
+              onChange={(e) => handleChange(e)}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -63,7 +74,7 @@ export default function Form() {
               label="Last Name"
               name="lastName"
               autoComplete="lname"
-              ref={lastRef}
+              onChange={(e) => handleChange(e)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -75,7 +86,7 @@ export default function Form() {
               label="Email Address"
               name="email"
               autoComplete="email"
-              ref={emailRef}
+              onChange={(e) => handleChange(e)}
             />
           </Grid>
           <Grid item xs={12}>
@@ -88,6 +99,7 @@ export default function Form() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => handleChange(e)}
             />
           </Grid>
         </Grid>
@@ -97,9 +109,10 @@ export default function Form() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onSubmit={() => {
-            dispatch('set');
-            return <Redirect to="/login" />;
+          onClick={(e) => {
+            e.preventDefault();
+            handleSubmit();
+            return "/landing";
           }}
         >
           Sign Up
