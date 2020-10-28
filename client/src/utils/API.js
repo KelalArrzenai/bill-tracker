@@ -8,15 +8,15 @@ export default {
     return axios.delete("/api/users/" + userId);
   },
   getBills: function(userId) {
-    return axios.get("/api/books/" + userId);
+    return axios.get("/api/bills/" + userId);
   },
   saveBill: function(billData) {
-    return axios.post("/api/books", billData);
+    return axios.post("/api/bills", billData);
   },
   updateBill: function(billId) {
-    return axios.put("/api/books/" + billId);
+    return axios.put("/api/bills/" + billId);
   },
   deleteBill: function(billId) {
-    return axios.delete("/api/books/" + billId);
+    return axios.delete("/api/bills/" + billId);
   }
 };
