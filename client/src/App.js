@@ -43,6 +43,7 @@ function App() {
             <Route exact path={process.env.PUBLIC_URL + "/signup"} component={Signup} />
             <Route path={process.env.PUBLIC_URL + "/:id"} component={User} />
           </Switch>
+
         </Router>
       </UserContext.Provider>
     </ThemeProvider>
