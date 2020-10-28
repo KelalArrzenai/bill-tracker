@@ -1,13 +1,18 @@
-import React, { useReducer, useContext} from 'react';
+import React, { useReducer, useContext } from "react";
+import API from "./API";
 
 const UserContext = React.createContext();
 const { Provider } = UserContext;
 
 const reducer = (state, action) => {
-  if (action === 'set') {
-    return { User : { ...state } };
+  if (action.type === "set") {
+    API.createUser(action.data)
+      .then((result) => {
+        return { ...state, user: result };
+      })
+      .catch((err) => console.log(err));
   }
-  throw new Error('401');
+  return state;
 };
 
 const UserProvider = ({ value = null, ...props }) => {
