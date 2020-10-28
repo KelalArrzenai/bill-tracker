@@ -2,12 +2,10 @@
 
 ## Description
 
-## Installation
-
 ## Screen Shots
 
 ## Main Photo
-<span style="display:block;text-align:center">![Test Automation](shot1.png)</span>
+<span style="display:block;text-align:center">![Test Automation](client/public/images/shot1.png)</span>
 
 ## Screen Shots (Links)
 
@@ -22,8 +20,8 @@
 
 | | |
 |:-------------------------:|:-------------------------:|
-|![Workout-Tracker-Demo](shot1.png) photo 1| ![Workout-Tracker-Demo](shot2.png) photo 2|
-|![Workout-Tracker-Demo](shot3.png) photo 3| ![Workout-Tracker-Demo](shot4.png)photo 4|
+|![Workout-Tracker-Demo](client/public/images/shot1.png) photo 1| ![Workout-Tracker-Demo](client/public/images/shot2.png) photo 2|
+|![Workout-Tracker-Demo](client/public/images/shot3.png) photo 3| ![Workout-Tracker-Demo](client/public/images/shot4.png)photo 4|
 
 ## Technology
 * [MongoBD](https://www.mongodb.com/)
@@ -36,6 +34,8 @@
 * [Boostrap](https://getbootstrap.com/)
 * [Favicon](https://favicon.io/favicon-converter/)
 * [WAMG](https://app-manifest.firebaseapp.com/)
+
+## Installation
 
 ## Authors
 Haley Myers
