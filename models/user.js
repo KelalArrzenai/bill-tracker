@@ -9,7 +9,7 @@ const userSchema = new Schema({
 });
 
 // plugin for passport-local-mongoose 
-UserSchema.plugin(passportLocalMongoose); 
+userSchema.plugin(passportLocalMongoose); 
 
 // export userschema 
 const User = mongoose.model('User', userSchema);

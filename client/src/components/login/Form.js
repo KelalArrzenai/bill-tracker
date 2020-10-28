@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React, { useRef, Redirect } from "react";
+import { useUserContext } from '../../utils/Context';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -26,8 +27,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Form() {
-  
+  const dispatch = useUserContext();
   const classes = useStyles();
+  const lastRef = useRef();
+  const emailRef =useRef();
+  const firstRef = useRef();
 
   function handleSubmit(event) {
     const { name, value } = event.target;
@@ -49,6 +53,7 @@ export default function Form() {
           name="email"
           autoComplete="email"
           autoFocus
+          ref={emailRef}
         />
         <TextField
           variant="outlined"
@@ -72,6 +77,10 @@ export default function Form() {
           variant="contained"
           color="primary"
           className={classes.submit}
+          onSubmit={() => {
+            dispatch('set');
+            return <Redirect to="/landing" />;
+          }}
         >
           Sign In
           </Button>
