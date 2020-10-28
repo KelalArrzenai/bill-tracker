@@ -16,8 +16,7 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Button from '@material-ui/core/Button';
@@ -34,7 +33,6 @@ const rows = [
   createData('Amazon Prime', 100, 0, 'Annually'),
   createData('Netflix', 15, 15, 'Monthly'),
   createData('Internet', 75, 15, 'Monthly'),
-
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -63,8 +61,17 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function deleteBill(id) {
+  let bill = 
+}
+
+function paidBill(){
+
+}
+
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Bill Name' },
+  { id: 'description', numeric: false, disablePadding: true, label: 'Description' },
   { id: 'amount', numeric: true, disablePadding: false, label: 'Amount' },
   { id: 'date', numeric: true, disablePadding: false, label: 'Date' },
   { id: 'frequency', numeric: true, disablePadding: false, label: 'Frequency' },
@@ -143,6 +150,7 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
+//Our hidden toolbar that appears when a bill is selected via checkbox
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
@@ -166,24 +174,26 @@ const EnhancedTableToolbar = (props) => {
       {numSelected > 0 ? (
         <>
         <Tooltip title="Paid">
-          <Button
-            variant="contained"
-            color="secondar"
-            size="small"
-            className={classes.button}
-            startIcon={<DeleteIcon />}
-            >Mark as Paid
-          </Button>
-        </Tooltip>
+            <Button
+              onClick={() => paidBill(id)}
+              variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              startIcon={<MonetizationOnIcon />}
+              >Paid
+            </Button>
+          </Tooltip>
 
         <Tooltip title="Delete">
           <Button
+            onClick={() => deleteBill(id)}
             variant="contained"
-            color="danger"
-            size="small"
+            color="secondary"
+            size="large"
             className={classes.button}
             startIcon={<DeleteIcon />}
-            >Delete from List
+            >Delete
           </Button>
         </Tooltip>
       </>
@@ -226,6 +236,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+//begin export default of our table
 export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
@@ -235,27 +247,6 @@ export default function EnhancedTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const font =  "'Exo 2', sans-serif";
-  const secFont = "'Raleway', sans-serif";
-const theme = React.useMemo(
-  () =>
-    createMuiTheme({
-      typography: {
-        fontFamily: font
-      },
-      palette: {
-        primary: {
-          main: '#4B7631',
-        },
-        secondary: {
-          main: '#4db8ff',
-        },
-        danger: {
-          main: '#c11111',
-        }
-      },
-    })
-);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -305,9 +296,8 @@ const theme = React.useMemo(
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  //render table 
   return (
-    <div className={classes.root}>
-      <ThemeProvider theme={theme}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -359,7 +349,7 @@ const theme = React.useMemo(
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -376,7 +366,5 @@ const theme = React.useMemo(
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      </ThemeProvider>
-    </div>
   );
 }
