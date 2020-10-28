@@ -12,6 +12,7 @@ import { UserProvider } from './utils/Context';
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const font =  "'Exo 2', sans-serif";
+  const secFont = "'Raleway', sans-serif";
 
   const theme = React.useMemo(
     () =>
@@ -26,6 +27,9 @@ function App() {
           },
           secondary: {
             main: '#4db8ff',
+          },
+          danger: {
+            main: '#c11111',
           }
         },
       }),
