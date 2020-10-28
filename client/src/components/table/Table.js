@@ -20,25 +20,21 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import Button from '@material-ui/core/Button';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 function createData(name, amount, date, frequency, protein) {
   return { name, amount, date, frequency, protein };
 }
 
 const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
+  createData('Mortgage', 1000, 1, 'Monthly'),
+  createData('Water', 45, 25, 'Monthly'),
+  createData('Child Care', 300, 1, 'Weekly'),
+  createData('Amazon Prime', 100, 0, 'Annually'),
+  createData('Netflix', 15, 15, 'Monthly'),
+  createData('Internet', 75, 15, 'Monthly'),
+
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -163,16 +159,34 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Nutrition
+          Upcoming Bills
         </Typography>
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
+        <>
+        <Tooltip title="Paid">
+          <Button
+            variant="contained"
+            color="secondar"
+            size="small"
+            className={classes.button}
+            startIcon={<DeleteIcon />}
+            >Mark as Paid
+          </Button>
         </Tooltip>
+
+        <Tooltip title="Delete">
+          <Button
+            variant="contained"
+            color="danger"
+            size="small"
+            className={classes.button}
+            startIcon={<DeleteIcon />}
+            >Delete from List
+          </Button>
+        </Tooltip>
+      </>
       ) : (
         <Tooltip title="Filter list">
           <IconButton aria-label="filter list">
@@ -220,6 +234,28 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const font =  "'Exo 2', sans-serif";
+  const secFont = "'Raleway', sans-serif";
+const theme = React.useMemo(
+  () =>
+    createMuiTheme({
+      typography: {
+        fontFamily: font
+      },
+      palette: {
+        primary: {
+          main: '#4B7631',
+        },
+        secondary: {
+          main: '#4db8ff',
+        },
+        danger: {
+          main: '#c11111',
+        }
+      },
+    })
+);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -271,6 +307,7 @@ export default function EnhancedTable() {
 
   return (
     <div className={classes.root}>
+      <ThemeProvider theme={theme}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -339,6 +376,7 @@ export default function EnhancedTable() {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
+      </ThemeProvider>
     </div>
   );
 }
