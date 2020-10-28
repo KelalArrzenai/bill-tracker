@@ -14,9 +14,8 @@ const useStyles = makeStyles({
   },
 });
 
+export default function Header() {
 
-
-export default function ImgMediaCard() {
   const classes = useStyles();
 
   return (
