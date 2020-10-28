@@ -15,6 +15,7 @@ const useStyles = makeStyles({
 });
 
 export default function Header() {
+
   const classes = useStyles();
 
   return (
@@ -24,7 +25,7 @@ export default function Header() {
           component="img"
           alt="Money Header"
           height="300"
-          image="/moneybag.jpg"
+          image="./header.jpg"
           title="Bill Tracker"
         />
         <CardContent>
