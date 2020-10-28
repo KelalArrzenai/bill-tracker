@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
-import desktopImage from './header.jpg';
-import mobileImage from './header.jpg';
+import desktopImage from './desktopImage.jpg';
+import mobileImage from './mobileImage.jpg';
 
 const Background = () => {
     const imageUrl = window.innerWidth >= 1200 ? desktopImage : mobileImage;
