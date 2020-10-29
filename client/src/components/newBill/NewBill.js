@@ -1,9 +1,22 @@
 import React, { useState } from "react";
 import { useUserContext } from "../../utils/Context";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormControl, InputLabel, Select, Fab, Modal, InputAdornment, MenuItem, TextField, Container, IconButton } from "@material-ui/core";
+import {
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  Fab,
+  Modal,
+  InputAdornment,
+  MenuItem,
+  TextField,
+  Container,
+  IconButton,
+  Grid,
+} from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import API from '../../utils/API';
+import API from "../../utils/API";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -34,10 +47,10 @@ const useStyles = makeStyles((theme) => ({
 function addBill(props) {
   console.log(props);
   API.saveBill(props)
-  .then(res => {
-    window.location.reload();
-  })
-  .catch(err => console.log(err))
+    .then((res) => {
+      window.location.reload();
+    })
+    .catch((err) => console.log(err));
 }
 
 export default function SimpleModal() {
@@ -56,17 +69,17 @@ export default function SimpleModal() {
   };
 
   function handleSubmit() {
-    dispatch({type:'set', data: form});
+    dispatch({ type: "set", data: form });
     addBill(form);
     handleClose();
   }
 
   const handleChange = (e) => {
-    const name = e.target.name
-    const value = e.target.value
+    const name = e.target.name;
+    const value = e.target.value;
 
-    setForm({...form, [name]:value})
-  }
+    setForm({ ...form, [name]: value });
+  };
 
   return (
     <div>
@@ -85,95 +98,83 @@ export default function SimpleModal() {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-      <Container maxWidth="sm">
+        <Container maxWidth="sm">
         <FormControl style={modalStyle} className={classes.paper}>
-        <TextField
-          onChange={(e) => handleChange(e)}
-          id="outlined-required"
-          label="Name of Bill"
-          margin="normal"
-          className={classes.textField}
-          variant="outlined"
-        />
-      
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">Due Date</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          onChange={(e) => handleChange(e)}
-          label="Date"
-        >
-          <MenuItem value={1}>1</MenuItem>
-          <MenuItem value={2}>2</MenuItem>
-          <MenuItem value={3}>3</MenuItem>
-          <MenuItem value={4}>4</MenuItem>
-          <MenuItem value={5}>5</MenuItem>
-          <MenuItem value={6}>6</MenuItem>
-          <MenuItem value={7}>7</MenuItem>
-          <MenuItem value={8}>8</MenuItem>
-          <MenuItem value={9}>9</MenuItem>
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={11}>11</MenuItem>
-          <MenuItem value={12}>12</MenuItem>
-          <MenuItem value={13}>13</MenuItem>
-          <MenuItem value={14}>14</MenuItem>
-          <MenuItem value={15}>15</MenuItem>
-          <MenuItem value={16}>16</MenuItem>
-          <MenuItem value={17}>17</MenuItem>
-          <MenuItem value={18}>18</MenuItem>
-          <MenuItem value={19}>19</MenuItem>
-          <MenuItem value={20}>20</MenuItem>
-          <MenuItem value={21}>21</MenuItem>
-          <MenuItem value={22}>22</MenuItem>
-          <MenuItem value={23}>23</MenuItem>
-          <MenuItem value={24}>24</MenuItem>
-          <MenuItem value={25}>25</MenuItem>
-          <MenuItem value={26}>26</MenuItem>
-          <MenuItem value={27}>27</MenuItem>
-          <MenuItem value={28}>28</MenuItem>
-          <MenuItem value={29}>29</MenuItem>
-          <MenuItem value={30}>30</MenuItem>
-          <MenuItem value={31}>31</MenuItem>
-        </Select>
-      </FormControl>
+          <Typography component="h1" variant="h4" color="secondary">
+          Create a New Bill
+          </Typography>
 
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">Frequency</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          onChange={(e) => handleChange(e)}
-          label="Frequency"
-        >
-          <MenuItem value={1}>Once</MenuItem>
-          <MenuItem value={7}>Weekly</MenuItem>
-          <MenuItem value={15}>Bi-Monthly</MenuItem>
-          <MenuItem value={30}>Monthly</MenuItem>
-        </Select>
-      </FormControl>
-      <TextField
-        onChange={(e) => handleChange(e)}
-        id="outlined-margin-normal"
-        label="Projected Amount"
-        type="number"
-        className={classes.textField}
-        startAdornment={<InputAdornment position="start">$</InputAdornment>}
-        helperText="You can update this value later"
-        variant="outlined"
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                onChange={(e) => handleChange(e)}
+                id="outlined-required"
+                label="Name of Bill"
+                margin="normal"
+                className={classes.textField}
+                variant="outlined"
+              />
+            </Grid>
 
-      />
-    <Fab
-      onClick={() => handleSubmit()}
-      variant="extended"
-      color="primary"
-      size="large"
-      className={classes.extended}>
-      <AddCircleOutlineIcon className={classes.extendedIcon} />
-      {"  "}Save
-    </Fab>
-    </FormControl>
-    </Container>
+            <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  id="datetime-local"
+                  label="Select Date"
+                  type="date"
+                  format="yyyy/MM/dd"
+                  autoOk={true}
+                  onChange={(e) => handleChange(e)}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+            </Grid>
+
+            <Grid item xs={12}>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="simple-select-outlined"
+                  onChange={(e) => handleChange(e)}
+                  label="Frequency"
+                  variant="outlined"
+                >
+                  <MenuItem value={1}>Once</MenuItem>
+                  <MenuItem value={7}>Weekly</MenuItem>
+                  <MenuItem value={15}>Bi-Monthly</MenuItem>
+                  <MenuItem value={30}>Monthly</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                onChange={(e) => handleChange(e)}
+                id="outlined-margin-normal"
+                label="Projected Amount"
+                type="number"
+                className={classes.textField}
+                helperText="You can update this value later"
+                variant="outlined"
+              />
+            </Grid>
+
+            <IconButton
+              onClick={() => handleSubmit()}
+              variant="extended"
+              color="primary"
+              size="large"
+              className={classes.extended}
+            >
+              <AddCircleOutlineIcon className={classes.extendedIcon} />
+              Save
+            </IconButton>
+          </Grid>
+      </FormControl>
+      </Container>
       </Modal>
     </div>
   );
