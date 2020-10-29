@@ -5,14 +5,23 @@ const UserContext = React.createContext();
 const { Provider } = UserContext;
 
 const reducer = (state, action) => {
-  if (action.type === "set") {
-    API.createUser(action.data)
-      .then((result) => {
-        return { ...state, user: result };
-      })
-      .catch((err) => console.log(err));
+  switch (action.type) {
+    case 'set':
+      API.createUser(action.data)
+        .then(result => {
+          return { ...state, user: result };
+        })
+        .catch(err => console.log(err));
+    case 'get':
+      API.getUser(state)
+        .then(result => {
+          return { ...state, user: result };
+        })
+        .then(() => console.log(state))
+        .catch(err => console.log(err));
+    default:
+      return state;
   }
-  return state;
 };
 
 const UserProvider = ({ value = null, ...props }) => {
