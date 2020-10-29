@@ -8,4 +8,7 @@ router
     .route("/:id")
     .delete(userController.remove);
 
+router.route("/:email")
+    .get(userController.find);
+    
 module.exports = router;
