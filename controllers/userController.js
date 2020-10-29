@@ -2,10 +2,15 @@ const db = require("../models");
 
 module.exports = {
   create: function(req, res) {
-    console.log('CREATE', req.body);
     db.User
       .create(res.body)
       .then(data => {console.log(data); res.json(data)})
+      .catch(err => res.status(422).json(err));
+  },
+  find: function(req, res) {
+    db.User
+      .findOne({email: req.params.email})
+      .then(data => res.json(data))
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
