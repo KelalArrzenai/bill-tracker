@@ -8,7 +8,7 @@ import Header from "../components/header/Header";
   export default function User() {
     return (
       <Container component="main" maxWidth="lg">
-        {/* <Header /> */}
+        <Header />
         <Table />
         <Box mt={8}>
           <Copyright />
