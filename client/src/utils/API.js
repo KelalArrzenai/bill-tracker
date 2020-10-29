@@ -4,7 +4,7 @@ export default {
   createUser: function(userData) {
     return axios.post("/api/users/", userData);
   },
-  getuser: function(userData) {
+  getUser: function(userData) {
     return axios.get('/api/users/', userData);
   },
   deleteUser: function(userId) {
