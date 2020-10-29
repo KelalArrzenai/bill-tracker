@@ -2,25 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import Button from '@material-ui/core/Button';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { Table, TableBody, TableCell, TableContainer, TableHead, Tooltip, TablePagination, TableRow, TableSortLabel } from '@material-ui/core';
+import { Toolbar, Typography, Paper, Checkbox, Button, IconButton, Container, Fab } from '@material-ui/core';
+import  DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import  FilterListIcon from '@material-ui/icons/FilterList';
+import  HistoryIcon from '@material-ui/icons/History';
+
+import API from '../../utils/API';
+import NewBill from '../newBill/NewBill';
 
 function createData(name, amount, date, frequency, protein) {
   return { name, amount, date, frequency, protein };
@@ -61,20 +50,26 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function deleteBill(id) {
-  let bill = 
+function deleteBill(props) {
+  console.log(props);
+  API.deleteBill(props._id)
+  .then(res => {
+    window.location.reload();
+  })
+  .catch(err => console.log(err))
 }
 
-function paidBill(){
-
+function paidBill(props){
+  API.updateBill(props._id)
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
 }
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Bill Name' },
-  { id: 'description', numeric: false, disablePadding: true, label: 'Description' },
-  { id: 'amount', numeric: true, disablePadding: false, label: 'Amount' },
-  { id: 'date', numeric: true, disablePadding: false, label: 'Date' },
-  { id: 'frequency', numeric: true, disablePadding: false, label: 'Frequency' },
+  { id: 'amount', numeric: true, disablePadding: true, label: 'Amount' },
+  { id: 'date', numeric: true, disablePadding: true, label: 'Date' },
+  { id: 'frequency', numeric: true, disablePadding: true, label: 'Frequency' },
 ];
 
 function EnhancedTableHead(props) {
@@ -156,7 +151,7 @@ const EnhancedTableToolbar = (props) => {
   const { numSelected } = props;
 
   return (
-    <Toolbarstatus
+    <Toolbar
       className={clsx(classes.root, {
         [classes.highlight]: numSelected > 0,
       })}
@@ -166,35 +161,38 @@ const EnhancedTableToolbar = (props) => {
           {numSelected} selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Upcoming Bills
+        <Typography className={classes.title} variant="h5" id="tableTitle" component="div">
+        Upcoming Bills
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <>
         <Tooltip title="Paid">
-            <Button
-              onClick={() => paidBill(id)}
+            <Fab
+              onClick={() => paidBill()}
               variant="contained"
               color="primary"
               size="large"
-              className={classes.button}
-              startIcon={<MonetizationOnIcon />}
-              >Paid
-            </Button>
+              className={classes.extended}>
+              <HistoryIcon fontSize="large" />
+            {" "}
+              Paid
+            </Fab>
           </Tooltip>
 
         <Tooltip title="Delete">
-          <Button
-            onClick={() => deleteBill(id)}
-            variant="contained"
-            color="secondary"
+          <Fab
+            onClick={() => deleteBill()}
+            variant="extended"
+            color="primary"
             size="large"
-            className={classes.button}
-            startIcon={<DeleteIcon />}
-            >Delete
-          </Button>
+            className={classes.margin}>
+            <DeleteForeverIcon fontSize="large" className={classes.extendedIcon} />
+            {" "}
+            Delete
+          </Fab>
+          
         </Tooltip>
       </>
       ) : (
@@ -221,7 +219,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
   },
   table: {
-    minWidth: 750,
+    minWidth: 250,
   },
   visuallyHidden: {
     border: 0,
@@ -298,6 +296,7 @@ export default function EnhancedTable() {
 
   //render table 
   return (
+    <Container maxWidth="lg">
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
@@ -356,7 +355,9 @@ export default function EnhancedTable() {
             </TableBody>
           </Table>
         </TableContainer>
+        <NewBill />
         <TablePagination
+        
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={rows.length}
@@ -365,6 +366,8 @@ export default function EnhancedTable() {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        
       </Paper>
+    </Container>
   );
 }
