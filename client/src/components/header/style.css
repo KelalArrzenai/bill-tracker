@@ -1,6 +1,6 @@
 .App {
-  height: 100vh;
-  background-size: contain;
+  height: 150px;
+  width: 100%;
   background-repeat: no-repeat;
   background-position: top center;
 }
