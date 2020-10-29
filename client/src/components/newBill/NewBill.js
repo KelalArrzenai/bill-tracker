@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useUserContext } from "../../utils/Context";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormControl, InputLabel, Select, Fab, Button, Modal, InputAdornment, MenuItem, TextField, Container } from "@material-ui/core";
+import { FormControl, InputLabel, Select, Fab, Modal, InputAdornment, MenuItem, TextField, Container, IconButton } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import API from '../../utils/API';
-import NewBill from '../newBill/NewBill';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 function addBill(props) {
   console.log(props);
-  API.saveBill(props._id)
+  API.saveBill(props)
   .then(res => {
     window.location.reload();
   })
@@ -44,12 +44,8 @@ export default function SimpleModal() {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const [frequency, setFreq] = React.useState('');
-
-  let date;
-  const handleChange = (event) => {
-    setFreq(event.target.value);
-  };
+  const [form, setForm] = useState({});
+  const [state, dispatch] = useUserContext();
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,17 +55,29 @@ export default function SimpleModal() {
     setOpen(false);
   };
 
+  function handleSubmit() {
+    dispatch({type:'set', data: form});
+    addBill(form);
+    handleClose();
+  }
+
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+
+    setForm({...form, [name]:value})
+  }
+
   return (
     <div>
-      <Fab
-        onClick={handleOpen}
+      <IconButton
+        aria-label="Paid"
         color="primary"
-        size="large"
-        variant="extended"
-        className={classes.extended}>
-        <AddCircleOutlineIcon className={classes.extendedIcon}/>
-        New Bill
-      </Fab>
+        size="small"
+        onClick={handleOpen}
+      >
+        <AddCircleOutlineIcon fontSize="small" /> New Bill
+      </IconButton>
 
       <Modal
         open={open}
@@ -80,6 +88,7 @@ export default function SimpleModal() {
       <Container maxWidth="sm">
         <FormControl style={modalStyle} className={classes.paper}>
         <TextField
+          onChange={(e) => handleChange(e)}
           id="outlined-required"
           label="Name of Bill"
           margin="normal"
@@ -92,8 +101,7 @@ export default function SimpleModal() {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={date}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e)}
           label="Date"
         >
           <MenuItem value={1}>1</MenuItem>
@@ -135,17 +143,17 @@ export default function SimpleModal() {
         <Select
           labelId="demo-simple-select-outlined-label"
           id="demo-simple-select-outlined"
-          value={frequency}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e)}
           label="Frequency"
         >
           <MenuItem value={1}>Once</MenuItem>
           <MenuItem value={7}>Weekly</MenuItem>
+          <MenuItem value={15}>Bi-Monthly</MenuItem>
           <MenuItem value={30}>Monthly</MenuItem>
-          <MenuItem value={365}>Annually</MenuItem>
         </Select>
       </FormControl>
       <TextField
+        onChange={(e) => handleChange(e)}
         id="outlined-margin-normal"
         label="Projected Amount"
         type="number"
@@ -153,9 +161,10 @@ export default function SimpleModal() {
         startAdornment={<InputAdornment position="start">$</InputAdornment>}
         helperText="You can update this value later"
         variant="outlined"
+
       />
     <Fab
-      onClick={() => addBill()}
+      onClick={() => handleSubmit()}
       variant="extended"
       color="primary"
       size="large"
