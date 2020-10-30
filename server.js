@@ -1,12 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const routes = require("./routes");
+const User = require('./models/user');
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+passport.use(new LocalStrategy(User.authenticate()));
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(passport.initialize()); 
+app.use(passport.session());
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -15,6 +20,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(routes)
 
 const bodyParser = require('body-parser');
+const passport = require("passport");
 const expressSession = require('express-session')({
   secret: 'secret',
   resave: false,
