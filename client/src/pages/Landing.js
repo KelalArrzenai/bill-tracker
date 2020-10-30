@@ -26,19 +26,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function User() {
-  const [state, dispatch] = useUserContext();
-  useEffect(() => {
-    dispatch({type: 'get'});
-  }, [dispatch]);
-
-  return (
-    <Container component="main" maxWidth="lg">
-      {/* <Header /> */}
-      <Table />
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
-  );
-}
+  export default function User() {
+    const [state, dispatch] = useUserContext();
+      useEffect(() => {
+      dispatch({type: 'get'});
+      }, [dispatch]);
+    
+    return (
+      <Container component="main" maxWidth="lg">
+        <Header />
+        <Table />
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    );
+  }

@@ -251,6 +251,8 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     minWidth: 250,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   visuallyHidden: {
     border: 0,
@@ -326,14 +328,13 @@ export default function EnhancedTable() {
 
   //render table
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" className={classes.table}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead

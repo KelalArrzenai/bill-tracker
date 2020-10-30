@@ -11,10 +11,16 @@ const userSchema = new Schema({
 });
 
 // plugin for passport-local-mongoose 
-userSchema.plugin(passportLocalMongoose); 
+userSchema.plugin(passportLocalMongoose);
 
 // export userschema 
 const User = mongoose.model('User', userSchema);
 
+const usersArrSchema = new Schema({
+  users: [userSchema]
+});
 
-module.exports = User;
+const UserStore = mongoose.model('UserStore', usersArrSchema);
+
+
+module.exports = User, UserStore;

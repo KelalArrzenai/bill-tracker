@@ -12,8 +12,6 @@ import { UserProvider } from './utils/Context';
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const font =  "'Kanit', sans-serif";
-  const secFont = "'Raleway', sans-serif";
-
 
   const theme = React.useMemo(
     () =>
