@@ -1,15 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import User from "./pages/Landing";
+import { UserProvider } from './utils/Context';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { UserProvider } from './utils/Context';
 
 function App() {
+
+  // const [user, setUser] = useState(
+  //   {
+  //     _id: "sadfs755",
+  //     firstName: "Jane",
+  //     lastName: "Smith",
+  //     email: "Jane@me.com",
+  //     password: "abc123"
+  //   }
+  // );
+
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const font =  "'Kanit', sans-serif";
 

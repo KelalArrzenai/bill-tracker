@@ -1,0 +1,30 @@
+[
+  {
+  "title": "Power",
+  "amount": "100",
+  "dueDate": "11/15/2020",
+  "frequency": "monthly",
+  "userId": "sadfs755"
+  },
+  {
+    "title": "Child Care",
+    "amount": "300",
+    "dueDate": "11/6/2020",
+    "frequency": "weekly",
+    "userId": "sadfs755"
+  },
+  {
+    "title": "Mortgage",
+    "amount": "1000",
+    "dueDate": "11/02/2020",
+    "frequency": "monthly",
+    "userId": "sadfs755"
+  },
+  {
+    "title": "HBO",
+    "amount": "15",
+    "dueDate": "11/15/2020",
+    "frequency": "monthly",
+    "userId": "sadfs755"
+  }
+]
