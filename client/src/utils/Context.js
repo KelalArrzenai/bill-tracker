@@ -12,6 +12,7 @@ const reducer = (state, action) => {
           return { ...state, user: result };
         })
         .catch(err => console.log(err));
+      break;  
     case 'get':
       API.getUser(state)
         .then(result => {
@@ -19,6 +20,7 @@ const reducer = (state, action) => {
         })
         .then(() => console.log(state))
         .catch(err => console.log(err));
+      break;  
     default:
       return state;
   }
