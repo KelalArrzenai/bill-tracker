@@ -26,7 +26,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSession);
 
 // connect to mongodb
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/billtracker");
+mongoose.connect(process.env.MONGODB_URI || "mongodb+srv://cr31293:thispasswordsucks@cluster0.ftj0e.mongodb.net/billtracker?retryWrites=true&w=majority",
+{ useNewUrlParser: true, useUnifiedTopology: true });
 
 // start API server
 app.listen(PORT, function() {
