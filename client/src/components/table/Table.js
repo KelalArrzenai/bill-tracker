@@ -36,11 +36,7 @@ function createData(name, amount, date, frequency) {
 
 const rows = [
   createData("Mortgage", 1000, 1, "Monthly"),
-  createData("Water", 45, 25, "Monthly"),
-  createData("Child Care", 300, 1, "Weekly"),
-  createData("Amazon Prime", 10, 0, "Monthly"),
-  createData("Netflix", 15, 15, "Monthly"),
-  createData("Internet", 75, 15, "Monthly"),
+ 
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -87,7 +83,7 @@ function paidBill(props) {
 const headCells = [
   { id: "name", numeric: false, disablePadding: true, label: "Bill Name" },
   { id: "amount", numeric: true, disablePadding: true, label: "Amount" },
-  { id: "date", numeric: true, disablePadding: true, label: "Due Date" },
+  { id: "date", numeric: true, disablePadding: true, label: "Next Due" },
 ];
 
 function EnhancedTableHead(props) {
@@ -274,8 +270,33 @@ export default function EnhancedTable() {
   const [orderBy, setOrderBy] = React.useState("amount");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  function descendingComparator(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }  
+
+  function getComparator(order, orderBy) {
+    return order === "desc"
+      ? (a, b) => descendingComparator(a, b, orderBy)
+      : (a, b) => -descendingComparator(a, b, orderBy);
+  }
+  
+  function stableSort(array, comparator) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = comparator(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map((el) => el[0]);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";

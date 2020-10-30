@@ -17,6 +17,9 @@ import {
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import API from "../../utils/API";
+import data from "../../data/bills.json";
+const fs = require('fs');
+const path = require('path');
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -48,7 +51,6 @@ function addBill(props) {
   console.log(props);
   API.saveBill(props)
     .then((res) => {
-      window.location.reload();
     })
     .catch((err) => console.log(err));
 }
@@ -68,9 +70,18 @@ export default function SimpleModal() {
     setOpen(false);
   };
 
+  // function writeJson(props){
+  //   fs.writeFile('../../data/bills.json', JSON.stringify(props), (err) => {
+  //     if (err) console.log('Error writing file:', err)
+  //   })
+  // }
+
   function handleSubmit() {
+    //grab the userID and put in newbill obj
     dispatch({ type: "set", data: form });
     addBill(form);
+    console.log(form);   
+    // writeJson(form);
     handleClose();
   }
 
@@ -110,9 +121,10 @@ export default function SimpleModal() {
                 onChange={(e) => handleChange(e)}
                 id="outlined-required"
                 label="Name of Bill"
+                name="name"
                 margin="normal"
                 required
-              fullWidth
+                fullWidth
                 className={classes.textField}
                 variant="outlined"
               />
@@ -124,10 +136,10 @@ export default function SimpleModal() {
                   id="datetime-local"
                   label="Select Date"
                   type="date"
+                  name="date"
                   format="yyyy/MM/dd"
                   required
-              fullWidth
-                  autoOk={true}
+                  fullWidth
                   onChange={(e) => handleChange(e)}
                   className={classes.textField}
                   InputLabelProps={{
@@ -137,13 +149,13 @@ export default function SimpleModal() {
             </Grid>
 
             <Grid item xs={12}>
-            {/* <FormControl className={classes.formControl}> */}
                 <Select
                   onChange={(e) => handleChange(e)}
                   labelId="demo-simple-select-outlined-label"
                   id="demo-simple-select-outlined"
                   label="Frequency"
                   variant="outlined"
+                  name="frequency"
                   className={classes.selectEmpty}
                   inputProps={{ 'aria-label': 'Without label' }}
                   displayEmpty
@@ -151,13 +163,12 @@ export default function SimpleModal() {
                   fullWidth
                 >
                 <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
-                  <MenuItem value="" disabled > Frequency</MenuItem>
+                  <MenuItem value="" disabled > </MenuItem>
                   <MenuItem value={1}>Once</MenuItem>
                   <MenuItem value={7}>Weekly</MenuItem>
                   <MenuItem value={15}>Bi-Monthly</MenuItem>
                   <MenuItem value={30}>Monthly</MenuItem>
                 </Select>
-              {/* </FormControl> */}
             </Grid>
 
             <Grid item xs={12}>
@@ -166,6 +177,7 @@ export default function SimpleModal() {
                 id="outlined-margin-normal"
                 label="Projected Amount"
                 type="number"
+                name="amount"
                 className={classes.textField}
                 variant="outlined"
                 required
