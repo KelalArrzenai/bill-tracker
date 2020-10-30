@@ -7,6 +7,7 @@ const { Provider } = UserContext;
 const reducer = (state, action) => {
   switch (action.type) {
     case 'set':
+      console.log(action.data);
       API.createUser(action.data)
         .then(result => {
           return { ...state, user: result };

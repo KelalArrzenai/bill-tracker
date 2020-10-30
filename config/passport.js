@@ -5,11 +5,8 @@ const db = require("../models");
 const userController = require('../controllers/userController');
 
 passport.use(new LocalStrategy(
-  {
-    usernamefield: "email"
-  },
   function(email, password, done) {
-   userController.findOne(email).then(function(dbUser) {
+   userController.find({email}).then(function(dbUser) {
       if (!dbUser) {
         return done(null, false, {
           message: "Incorrect email."
