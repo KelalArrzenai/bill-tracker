@@ -111,6 +111,8 @@ export default function SimpleModal() {
                 id="outlined-required"
                 label="Name of Bill"
                 margin="normal"
+                required
+              fullWidth
                 className={classes.textField}
                 variant="outlined"
               />
@@ -123,6 +125,8 @@ export default function SimpleModal() {
                   label="Select Date"
                   type="date"
                   format="yyyy/MM/dd"
+                  required
+              fullWidth
                   autoOk={true}
                   onChange={(e) => handleChange(e)}
                   className={classes.textField}
@@ -133,21 +137,27 @@ export default function SimpleModal() {
             </Grid>
 
             <Grid item xs={12}>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
+            {/* <FormControl className={classes.formControl}> */}
                 <Select
-                  labelId="demo-simple-select-outlined-label"
-                  id="simple-select-outlined"
                   onChange={(e) => handleChange(e)}
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
                   label="Frequency"
                   variant="outlined"
+                  className={classes.selectEmpty}
+                  inputProps={{ 'aria-label': 'Without label' }}
+                  displayEmpty
+                  required
+                  fullWidth
                 >
+                <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
+                  <MenuItem value="" disabled > Frequency</MenuItem>
                   <MenuItem value={1}>Once</MenuItem>
                   <MenuItem value={7}>Weekly</MenuItem>
                   <MenuItem value={15}>Bi-Monthly</MenuItem>
                   <MenuItem value={30}>Monthly</MenuItem>
                 </Select>
-              </FormControl>
+              {/* </FormControl> */}
             </Grid>
 
             <Grid item xs={12}>
@@ -157,8 +167,10 @@ export default function SimpleModal() {
                 label="Projected Amount"
                 type="number"
                 className={classes.textField}
-                helperText="You can update this value later"
                 variant="outlined"
+                required
+                fullWidth
+                // helperText="You can update this value later"
               />
             </Grid>
 
