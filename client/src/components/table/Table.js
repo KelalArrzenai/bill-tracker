@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
@@ -18,10 +18,8 @@ import {
   Typography,
   Paper,
   Checkbox,
-  Button,
   IconButton,
   Container,
-  Fab,
 } from "@material-ui/core";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import FilterListIcon from "@material-ui/icons/FilterList";
@@ -30,40 +28,83 @@ import HistoryIcon from "@material-ui/icons/History";
 import API from "../../utils/API";
 import NewBill from "../newBill/NewBill";
 
+var dayjs = require('dayjs');
+var currDay = dayjs();
+const curDueDate = dayjs().format('MMMM DD');
+
+function weeklyRecur(d) {
+  const addWeek = dayjs(d).add(7, 'day').format('MMM-DD');
+  return addWeek;
+}
+
+function fortnightlyRecur(d) {
+  const addFortnight = dayjs(d).add(15, 'day').format('MMM-DD');
+  return addFortnight;
+}
+
+function monthlyRecur(d) {
+  const addMonth = dayjs(d).add(1, 'month').format('MMM-DD');
+  return addMonth;
+}
+
 function createData(name, amount, date, frequency) {
   return { name, amount, date, frequency };
 }
 
 const rows = [
-  createData("Mortgage", 1000, 1, "Monthly"),
+  createData("Mortgage", 1000, 1, "monthly"),
+  createData("Water", 45, 25, "monthly"),
+  createData("Child Care", 300, 1, "weekly"),
+  createData("Amazon Prime", 10, 10, "monthly"),
+  createData("Netflix", 15, 15, "monthly"),
+  createData("Internet", 75, 15, "monthly"),
  
 ];
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    fontSize: 20,
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+  },
+  body: {
+    fontSize: 16,
+  },
+}))(TableCell);
 
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
+// function descendingComparator(a, b, orderBy) {
+//   if (b[orderBy] < a[orderBy]) {
+//     return -1;
+//   }
+//   if (b[orderBy] > a[orderBy]) {
+//     return 1;
+//   }
+//   return 0;
+// }
+
+// function getComparator(order, orderBy) {
+//   return order === "desc"
+//     ? (a, b) => descendingComparator(a, b, orderBy)
+//     : (a, b) => -descendingComparator(a, b, orderBy);
+// }
+
+// function stableSort(array, comparator) {
+//   const stabilizedThis = array.map((el, index) => [el, index]);
+//   stabilizedThis.sort((a, b) => {
+//     const order = comparator(a[0], b[0]);
+//     if (order !== 0) return order;
+//     return a[1] - b[1];
+//   });
+//   return stabilizedThis.map((el) => el[0]);
+// }
 
 function deleteBill(props) {
   console.log(props);
@@ -74,16 +115,36 @@ function deleteBill(props) {
     .catch((err) => console.log(err));
 }
 
+//if user clicke paid, it sets the new date based on freq and updates the api
 function paidBill(props) {
+  setNewDate(props)
   API.updateBill(props._id)
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 }
 
+//it checks the frequency of this bill and adds the appropriate number of days to set the next recurrance
+function setNewDate(props){
+  let currDate = props.date;
+  if(props.frequency === "once"){
+    //delete from table
+  }else if(props.frequency === 'weekly'){
+    var newDate = weeklyRecur(currDate);
+    return newDate;
+  }else if(props.frequency === 'bimonthly'){
+    var newDate = fortnightlyRecur(currDate);
+    return newDate;
+  }else if(props.frequency === 'monthly'){
+    var newDate = monthlyRecur(currDate);
+    return newDate;
+  }
+  console.log(newDate);
+}
+
 const headCells = [
   { id: "name", numeric: false, disablePadding: true, label: "Bill Name" },
   { id: "amount", numeric: true, disablePadding: true, label: "Amount" },
-  { id: "date", numeric: true, disablePadding: true, label: "Next Due" },
+  { id: "date", numeric: true, disablePadding: false, label: "Next Due" },
 ];
 
 function EnhancedTableHead(props) {
@@ -99,22 +160,20 @@ function EnhancedTableHead(props) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
-  var dayjs = require('dayjs');
-  dayjs().format();
 
   return (
     <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
+      <StyledTableRow>
+        <StyledTableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ "aria-label": "select all bills" }}
           />
-        </TableCell>
+        </StyledTableCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
@@ -132,9 +191,9 @@ function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableCell>
         ))}
-      </TableRow>
+      </StyledTableRow>
     </TableHead>
   );
 }
@@ -195,6 +254,7 @@ const EnhancedTableToolbar = (props) => {
           variant="h5"
           id="tableTitle"
           component="div"
+          color="primary"
         >
           Upcoming Bills
         </Typography>
@@ -239,6 +299,8 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
+
+//Start of TABLE info
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -265,7 +327,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-//begin export default of our table
+//begin export default of our TABLE
 export default function EnhancedTable() {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
@@ -368,6 +430,7 @@ export default function EnhancedTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
+
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -377,7 +440,7 @@ export default function EnhancedTable() {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
+                    <StyledTableRow
                       hover
                       onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
@@ -386,23 +449,23 @@ export default function EnhancedTable() {
                       key={row.name}
                       selected={isItemSelected}
                     >
-                      <TableCell padding="checkbox">
+                      <StyledTableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
-                      </TableCell>
-                      <TableCell
+                      </StyledTableCell>
+                      <StyledTableCell
                         component="th"
                         id={labelId}
                         scope="row"
                         padding="none"
                       >
                         {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.amount}</TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
-                    </TableRow>
+                      </StyledTableCell>
+                      <StyledTableCell align="right">$ {row.amount}</StyledTableCell>
+                      <StyledTableCell align="right">{row.date}</StyledTableCell>
+                    </StyledTableRow>
                   );
                 })}
               {emptyRows > 0 && (
