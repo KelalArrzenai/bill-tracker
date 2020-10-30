@@ -13,11 +13,12 @@ const Header = () => {
       
         <div className="App Jumbotron" style={{backgroundImage: `url(${imageUrl})` }}>
             <div className="App-content">
+
                 <h1>Bill Tracker</h1>
                 <h4 className="todaysDate"> {today} </h4>
+
             </div>
         </div>
-
     );
 };
 
