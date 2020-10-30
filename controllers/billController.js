@@ -1,6 +1,5 @@
 const db = require("../models/bill");
 
-
 module.exports = {
   findByUserId: function(req, res) {
     db.Bill
