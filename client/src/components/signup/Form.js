@@ -1,9 +1,9 @@
-import React, { Redirect, useState }  from "react";
+import React, { useState }  from "react";
+import { useHistory } from 'react-router-dom';
 import { useUserContext } from '../../utils/Context';
 import { Button, TextField, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
-import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -28,11 +28,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Form() {
   const [state, dispatch] = useUserContext();
   const classes = useStyles();
+  const history = useHistory();
 
   const [form, setForm] = useState({});
   
   function handleSubmit() {
-    dispatch({type:'set', data: form});
+    dispatch({type:'set', data: form})
   }
 
   const handleChange = (e) => {
@@ -40,6 +41,11 @@ export default function Form() {
     const value = e.target.value
     setForm({...form, [name]:value})
     console.log(form);
+  }
+
+  function routeChange() {
+    let path = '/landing';
+    history.push(path);
   }
 
   return (
@@ -109,7 +115,7 @@ export default function Form() {
           onClick={(e) => {
             e.preventDefault();
             handleSubmit();
-            return "/landing";
+            routeChange();
           }}
         >
           Sign Up
