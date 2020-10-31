@@ -1,51 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import { lighten, makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
-  Tooltip,
   TablePagination,
   TableRow,
-  TableSortLabel,
-} from "@material-ui/core";
-import {
-  Toolbar,
-  Typography,
   Paper,
   Checkbox,
-  IconButton,
   Container,
 } from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import HistoryIcon from "@material-ui/icons/History";
 
 import API from "../../utils/API";
 import NewBill from "../newBill/NewBill";
-
-var dayjs = require('dayjs');
-var currDay = dayjs();
-const curDueDate = dayjs().format('MMMM DD');
-
-function weeklyRecur(d) {
-  const addWeek = dayjs(d).add(7, 'day').format('MMM-DD');
-  return addWeek;
-}
-
-function fortnightlyRecur(d) {
-  const addFortnight = dayjs(d).add(15, 'day').format('MMM-DD');
-  return addFortnight;
-}
-
-function monthlyRecur(d) {
-  const addMonth = dayjs(d).add(1, 'month').format('MMM-DD');
-  return addMonth;
-}
+import BillsToolbar from "./Toolbar";
+import BillsTableHead from "./TableHead";
 
 function createData(name, amount, date, frequency) {
   return { name, amount, date, frequency };
@@ -58,15 +28,9 @@ const rows = [
   createData("Amazon Prime", 10, 10, "monthly"),
   createData("Netflix", 15, 15, "monthly"),
   createData("Internet", 75, 15, "monthly"),
- 
 ];
 
 const StyledTableCell = withStyles((theme) => ({
-  head: {
-    fontSize: 20,
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-  },
   body: {
     fontSize: 16,
   },
@@ -79,225 +43,6 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-
-// function descendingComparator(a, b, orderBy) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
-
-// function getComparator(order, orderBy) {
-//   return order === "desc"
-//     ? (a, b) => descendingComparator(a, b, orderBy)
-//     : (a, b) => -descendingComparator(a, b, orderBy);
-// }
-
-// function stableSort(array, comparator) {
-//   const stabilizedThis = array.map((el, index) => [el, index]);
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0]);
-//     if (order !== 0) return order;
-//     return a[1] - b[1];
-//   });
-//   return stabilizedThis.map((el) => el[0]);
-// }
-
-function deleteBill(props) {
-  console.log(props);
-  API.deleteBill(props._id)
-    .then((res) => {
-      window.location.reload();
-    })
-    .catch((err) => console.log(err));
-}
-
-//if user clicke paid, it sets the new date based on freq and updates the api
-function paidBill(props) {
-  setNewDate(props)
-  API.updateBill(props._id)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-}
-
-//it checks the frequency of this bill and adds the appropriate number of days to set the next recurrance
-function setNewDate(props){
-  let currDate = props.date;
-  if(props.frequency === "once"){
-    //delete from table
-  }else if(props.frequency === 'weekly'){
-    var newDate = weeklyRecur(currDate);
-    return newDate;
-  }else if(props.frequency === 'bimonthly'){
-    var newDate = fortnightlyRecur(currDate);
-    return newDate;
-  }else if(props.frequency === 'monthly'){
-    var newDate = monthlyRecur(currDate);
-    return newDate;
-  }
-  console.log(newDate);
-}
-
-const headCells = [
-  { id: "name", numeric: false, disablePadding: true, label: "Bill Name" },
-  { id: "amount", numeric: true, disablePadding: true, label: "Amount" },
-  { id: "date", numeric: true, disablePadding: false, label: "Next Due" },
-];
-
-function EnhancedTableHead(props) {
-  const {
-    classes,
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <StyledTableRow>
-        <StyledTableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all bills" }}
-          />
-        </StyledTableCell>
-        {headCells.map((headCell) => (
-          <StyledTableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "default"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </StyledTableCell>
-        ))}
-      </StyledTableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === "light"
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
-  title: {
-    flex: "1 1 100%",
-  },
-}));
-
-//Our hidden toolbar that appears when a bill is selected viacheckbox
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          className={classes.title}
-          variant="h5"
-          id="tableTitle"
-          component="div"
-          color="primary"
-        >
-          Upcoming Bills
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <>
-          <Tooltip title="Paid">
-            <IconButton
-              aria-label="Paid"
-              color="primary"
-              size="small"
-              onClick={() => paidBill()}
-            >
-              <HistoryIcon fontSize="med" /> Paid
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="delete">
-            <IconButton
-              aria-label="delete"
-              color="secondary"
-              size="small"
-              onClick={() => deleteBill()}
-            >
-              <DeleteForeverIcon /> Delete
-            </IconButton>
-          </Tooltip>
-        </>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
 
 
 //Start of TABLE info
@@ -336,6 +81,7 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  //sorting by date or amount
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -368,6 +114,7 @@ export default function EnhancedTable() {
     setOrderBy(property);
   };
 
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map((n) => n.name);
@@ -393,14 +140,15 @@ export default function EnhancedTable() {
         selected.slice(selectedIndex + 1)
       );
     }
-
     setSelected(newSelected);
   };
 
+  //function to handle the pagination: change page
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  //function to handle the pagination: number of rows per page
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -415,14 +163,14 @@ export default function EnhancedTable() {
   return (
     <Container maxWidth="lg" className={classes.table}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <BillsToolbar numSelected={selected.length} />
         <TableContainer>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
             aria-label="enhanced table"
           >
-            <EnhancedTableHead
+            <BillsTableHead
               classes={classes}
               numSelected={selected.length}
               order={order}
@@ -430,7 +178,6 @@ export default function EnhancedTable() {
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))

@@ -3,31 +3,19 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
   Tooltip,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-} from "@material-ui/core";
-import {
   Toolbar,
   Typography,
-  Paper,
-  Checkbox,
-  Button,
   IconButton,
-  Container,
-  Fab,
 } from "@material-ui/core";
+
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import HistoryIcon from "@material-ui/icons/History";
 import API from "../../utils/API";
-
+import addNotification from 'react-push-notification';
+import { Notifications } from 'react-push-notification';
+ 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
@@ -49,11 +37,46 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 
 //Our hidden toolbar that appears when a bill is selected viacheckbox
-export default Toolbar = (props) => {
+export default function BillsToolbar (props) {
   const classes = useToolbarStyles();
   const { numSelected } = props;
 
-  
+  var dayjs = require('dayjs');
+  var currDay = dayjs();
+  const curDueDate = dayjs().format('MMMM DD');
+
+function weeklyRecur(d) {
+  const addWeek = dayjs(d).add(7, 'day').format('MMM-DD');
+  return addWeek;
+}
+
+function fortnightlyRecur(d) {
+  const addFortnight = dayjs(d).add(15, 'day').format('MMM-DD');
+  return addFortnight;
+}
+
+function monthlyRecur(d) {
+  const addMonth = dayjs(d).add(1, 'month').format('MMM-DD');
+  return addMonth;
+}
+
+function setNewDate(props){
+  let currDate = props.date;
+  if(props.frequency === "once"){
+    //delete from table
+  }else if(props.frequency === 7){
+    var newDate = weeklyRecur(currDate);
+    return newDate;
+  }else if(props.frequency === 15){
+    var newDate = fortnightlyRecur(currDate);
+    return newDate;
+  }else if(props.frequency === 30){
+    var newDate = monthlyRecur(currDate);
+    return newDate;
+  }
+  console.log(newDate);
+}
+
 function deleteBill(props) {
   console.log(props);
   API.deleteBill(props._id)
@@ -63,10 +86,21 @@ function deleteBill(props) {
     .catch((err) => console.log(err));
 }
 
+function notify (props) {
+  addNotification({
+    title: 'Yay! This bill has been paid',
+    message: 'The next due date for ...' ,
+    native: true // when using native, your OS will handle theming.
+  });
+};
+
 function paidBill(props) {
-  API.updateBill(props._id)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  // setNewDate(props);
+  notify(props);
+  console.log(props)
+  // API.updateBill(props._id)
+  //   .then((res) => console.log(res))
+  //   .catch((err) => console.log(err));
 }
   return (
     <Toolbar
@@ -101,7 +135,7 @@ function paidBill(props) {
               aria-label="Paid"
               color="primary"
               size="small"
-              onClick={() => paidBill()}
+              onClick={() => paidBill(props)}
             >
               <HistoryIcon fontSize="med" /> Paid
             </IconButton>
@@ -129,6 +163,6 @@ function paidBill(props) {
   );
 };
 
-Toolbar.propTypes = {
+BillsToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };

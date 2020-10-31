@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Login from "./pages/Login";
@@ -8,6 +8,7 @@ import { UserProvider } from './utils/Context';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { Notifications } from 'react-push-notification';
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Notifications />
       <UserProvider>
         <Router>
           <Switch>

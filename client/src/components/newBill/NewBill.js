@@ -6,9 +6,7 @@ import {
   FormControl,
   InputLabel,
   Select,
-  Fab,
   Modal,
-  InputAdornment,
   MenuItem,
   TextField,
   Container,
@@ -17,7 +15,6 @@ import {
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import API from "../../utils/API";
-import data from "../../data/bills.json";
 const fs = require('fs');
 const path = require('path');
 
