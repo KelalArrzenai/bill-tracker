@@ -14,22 +14,24 @@
   padding: left;
 }
 
-.Title {
+.title {
   color: white;
   padding-left: 175px;
-  padding-top: 15px;
+  font-size: 35px;
+  text-shadow: 2px 1px 2px black;
 }
 
 .todaysDate{
   color: white;
   padding-left: 175px;
-  color: white;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 18px;
+  margin-top: 0;
+  text-shadow: 2px 1px 2px black;
 
 }
 
-/* @media (min-width: 900px ) {
+ @media (max-width: 800px ) { 
   .App {
       background-position: center center;
   }
@@ -38,4 +40,11 @@
       align-items: end;
       justify-content: left;
   }
-} */
+
+  .title {
+    color: white;
+    padding-left: 175px;
+    font-size: 24px;
+    text-shadow: 2px 1px 2px black;
+  }
+} 
