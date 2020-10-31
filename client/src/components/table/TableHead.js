@@ -1,41 +1,37 @@
 import React from "react";
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import PropTypes from "prop-types";
-import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
 import {
-  Table,
-  TableBody,
   TableCell,
-  TableContainer,
   TableHead,
-  Tooltip,
-  TablePagination,
   TableRow,
   TableSortLabel,
-} from "@material-ui/core";
-import {
-  Toolbar,
-  Typography,
-  Paper,
   Checkbox,
-  Button,
-  IconButton,
-  Container,
-  Fab,
 } from "@material-ui/core";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import HistoryIcon from "@material-ui/icons/History";
-import API from "../../utils/API";
-
 
 const headCells = [
   { id: "name", numeric: false, disablePadding: true, label: "Bill Name" },
   { id: "amount", numeric: true, disablePadding: true, label: "Amount" },
-  { id: "date", numeric: true, disablePadding: true, label: "Due Date" },
+  { id: "date", numeric: true, disablePadding: false, label: "Next Due" },
 ];
 
-export default function EnhancedTableHead(props) {
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.white,
+    color: theme.palette.common.black,
+    fontSize: 20,
+  }
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
+export default function BillsTableHead(props) {
   const {
     classes,
     onSelectAllClick,
@@ -51,17 +47,17 @@ export default function EnhancedTableHead(props) {
 
   return (
     <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
+      <StyledTableRow>
+        <StyledTableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{ "aria-label": "select all bills" }}
           />
-        </TableCell>
+        </StyledTableCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
@@ -79,14 +75,14 @@ export default function EnhancedTableHead(props) {
                 </span>
               ) : null}
             </TableSortLabel>
-          </TableCell>
+          </StyledTableCell>
         ))}
-      </TableRow>
+      </StyledTableRow>
     </TableHead>
   );
 }
 
-EnhancedTableHead.propTypes = {
+BillsTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
