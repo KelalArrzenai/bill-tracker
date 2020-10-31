@@ -161,10 +161,10 @@ export default function SimpleModal() {
                 >
                 <InputLabel id="demo-simple-select-label">Frequency</InputLabel>
                   <MenuItem value="" disabled > </MenuItem>
-                  <MenuItem value={1}>Once</MenuItem>
-                  <MenuItem value={7}>Weekly</MenuItem>
-                  <MenuItem value={15}>Bi-Monthly</MenuItem>
-                  <MenuItem value={30}>Monthly</MenuItem>
+                  <MenuItem value={"once"}>Once</MenuItem>
+                  <MenuItem value={"weekly"}>Weekly</MenuItem>
+                  <MenuItem value={"bi-monthly"}>Bi-Monthly</MenuItem>
+                  <MenuItem value={"monthly"}>Monthly</MenuItem>
                 </Select>
             </Grid>
 
