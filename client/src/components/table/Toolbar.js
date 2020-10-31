@@ -13,7 +13,9 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import HistoryIcon from "@material-ui/icons/History";
 import API from "../../utils/API";
-
+import addNotification from 'react-push-notification';
+import { Notifications } from 'react-push-notification';
+ 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
@@ -40,8 +42,8 @@ export default function BillsToolbar (props) {
   const { numSelected } = props;
 
   var dayjs = require('dayjs');
-var currDay = dayjs();
-const curDueDate = dayjs().format('MMMM DD');
+  var currDay = dayjs();
+  const curDueDate = dayjs().format('MMMM DD');
 
 function weeklyRecur(d) {
   const addWeek = dayjs(d).add(7, 'day').format('MMM-DD');
@@ -84,10 +86,21 @@ function deleteBill(props) {
     .catch((err) => console.log(err));
 }
 
+function notify (props) {
+  addNotification({
+    title: 'Yay! This bill has been paid',
+    message: 'The next due date for ...' ,
+    native: true // when using native, your OS will handle theming.
+  });
+};
+
 function paidBill(props) {
-  API.updateBill(props._id)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  // setNewDate(props);
+  notify(props);
+  console.log(props)
+  // API.updateBill(props._id)
+  //   .then((res) => console.log(res))
+  //   .catch((err) => console.log(err));
 }
   return (
     <Toolbar
@@ -122,7 +135,7 @@ function paidBill(props) {
               aria-label="Paid"
               color="primary"
               size="small"
-              onClick={() => paidBill()}
+              onClick={() => paidBill(props)}
             >
               <HistoryIcon fontSize="med" /> Paid
             </IconButton>

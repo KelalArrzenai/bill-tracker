@@ -24,13 +24,11 @@ const useStyles = makeStyles((theme) => ({
 export default function Form() {
   const dispatch = useUserContext();
   const classes = useStyles();
-  const lastRef = useRef();
   const emailRef =useRef();
-  const firstRef = useRef();
 
-  function handleSubmit(event) {
-    const { name, value } = event.target;
-  }
+  // function handleSubmit(event) {
+  //   const { name, value } = event.target;
+  // }
 
   return (
     <div className={classes.paper}>
