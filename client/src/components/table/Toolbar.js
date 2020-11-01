@@ -79,7 +79,7 @@ function setNewDate(props){
 
 function deleteBill(props) {
   console.log(props);
-  API.deleteBill(props._id)
+  API.deleteBill(props.data._id)
     .then((res) => {
       window.location.reload();
     })
