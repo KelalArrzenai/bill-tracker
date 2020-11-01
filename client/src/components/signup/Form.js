@@ -33,14 +33,33 @@ export default function Form() {
   const [form, setForm] = useState({});
   
   function handleSubmit() {
-    dispatch({type:'set', data: form})
+    console.log(form);
+    if (!form.firstName){
+      console.log('Please enter a first and last name');
+      return;
+    } 
+    else if (!form.lastName) {
+      console.log('Please enter a first and last name');
+      return; 
+    }
+    else if (!form.email) {
+      console.log('Please enter a valid email');
+      return; 
+    }
+    else if (!form.password) {
+      console.log('Please eanter a valid password');
+      return; 
+    }
+    else {
+      dispatch({type:'set', data: form});
+      routeChange();
+    }
   }
 
   const handleChange = (e) => {
     const name = e.target.name
     const value = e.target.value
     setForm({...form, [name]:value})
-    console.log(form);
   }
 
   function routeChange() {
@@ -115,7 +134,6 @@ export default function Form() {
           onClick={(e) => {
             e.preventDefault();
             handleSubmit();
-            routeChange();
           }}
         >
           Sign Up

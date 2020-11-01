@@ -5,7 +5,7 @@ export default {
     return axios.post("/api/users/", userData);
   },
   getUser: function(userData) {
-    return axios.get('/api/users/', userData);
+    return axios.get('/api/users/' + userData);
   },
   deleteUser: function(userId) {
     return axios.delete("/api/users/" + userId);

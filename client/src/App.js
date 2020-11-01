@@ -11,17 +11,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { Notifications } from 'react-push-notification';
 
 function App() {
-
-  // const [user, setUser] = useState(
-  //   {
-  //     _id: "sadfs755",
-  //     firstName: "Jane",
-  //     lastName: "Smith",
-  //     email: "Jane@me.com",
-  //     password: "abc123"
-  //   }
-  // );
-
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const font =  "'Kanit', sans-serif";
 

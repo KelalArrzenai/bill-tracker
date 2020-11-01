@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, from 'react';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Copyright from '../components/copyright/Copyright';
@@ -7,11 +7,6 @@ import Header from "../components/header/Header";
 import { useUserContext } from '../utils/Context';
 
   export default function User() {
-    const [state, dispatch] = useUserContext();
-      useEffect(() => {
-      dispatch({type: 'get'});
-      }, [dispatch]);
-    
 
     return (
       <Container component="main" maxWidth="lg">
