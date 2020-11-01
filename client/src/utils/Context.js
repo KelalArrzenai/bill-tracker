@@ -7,17 +7,18 @@ const { Provider } = UserContext;
 const reducer = (state, action) => {
   switch (action.type) {
     case 'set':
-      console.log(action.data);
       API.createUser(action.data)
-        .then(result => {
+        .then((result) => {
+          console.log('CREATE RESULT', result);
           return { ...state, user: result };
         })
+        .then((state) => {console.log('INITIAL STATE', state)})
         .catch(err => console.log(err));
       break;  
     case 'get':
-      API.getUser(state)
+      API.getUser(state.email)
         .then(result => {
-          return { ...state, user: result };
+          return { ...state, result };
         })
         .then(() => console.log(state))
         .catch(err => console.log(err));
@@ -28,7 +29,7 @@ const reducer = (state, action) => {
 };
 
 const UserProvider = ({ value = null, ...props }) => {
-  const [state, dispatch] = useReducer(reducer, { User: value });
+  const [state, dispatch] = useReducer(reducer, { user: value });
 
   return <Provider value={[state, dispatch]} {...props} />;
 };

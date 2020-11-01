@@ -10,8 +10,8 @@ module.exports = {
   },
   find: function(req, res) {
     db.User
-      .findOne({email: req.body.email})
-      .then(data => res.json(data))
+      .findOne({email: req.params.email})
+      .then(data => {console.log(data); res.json(data)})
       .catch(err => res.status(422).json(err));
   },
   remove: function(req, res) {
