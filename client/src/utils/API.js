@@ -14,7 +14,7 @@ export default {
     return axios.get("/api/bills/" + userId);
   },
   saveBill: function(billData) {
-    return axios.post("/api/bills", billData);
+    return axios.post("/api/bills/", billData);
   },
   updateBill: function(billId) {
     return axios.put("/api/bills/" + billId);

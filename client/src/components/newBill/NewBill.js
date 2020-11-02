@@ -44,13 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function addBill(props) {
-  console.log(props);
-  API.saveBill(props)
-    .then((res) => {
-    })
-    .catch((err) => console.log(err));
-}
 
 export default function SimpleModal() {
   const classes = useStyles();
@@ -58,6 +51,14 @@ export default function SimpleModal() {
   const [open, setOpen] = React.useState(false);
   const [form, setForm] = useState({});
   const [state, dispatch] = useUserContext();
+  
+  function addBill(props) {
+    console.log(props);
+    API.saveBill(props)
+      .then((res) => {
+      })
+      .catch((err) => console.log(err));
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -75,8 +76,19 @@ export default function SimpleModal() {
 
   function handleSubmit() {
     //grab the userID and put in newbill obj
-    dispatch({ type: "set", data: form });
-    addBill(form);
+    console.log(state);
+    console.log(form);
+    const userData = JSON.parse(localStorage.getItem('User'));
+    console.log(userData);
+    const billData = 
+    {
+      userId: userData._id,
+      name: form.name, 
+      date: form.date,
+      frequency: form.frequency,
+      amount: form.amount
+    }
+    addBill(billData);
     console.log(form);   
     // writeJson(form);
     handleClose();

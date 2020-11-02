@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -11,12 +11,16 @@ import {
   Checkbox,
   Container,
 } from "@material-ui/core";
+import { useUserContext } from "../../utils/Context";
 
 import API from "../../utils/API";
 import NewBill from "../newBill/NewBill";
 import BillsToolbar from "./Toolbar";
 import BillsTableHead from "./TableHead";
-import { useUserContext } from "../../utils/Context";
+
+function createData(name, amount, date, frequency) {
+  return { name, amount, date, frequency };
+}
 
 const StyledTableCell = withStyles((theme) => ({
   body: {
@@ -26,12 +30,11 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
-    '&:nth-of-type(odd)': {
+    "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
   },
 }))(TableRow);
-
 
 //Start of TABLE info
 const useStyles = makeStyles((theme) => ({
@@ -69,6 +72,20 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const [state, dispatch] = useUserContext();
+  console.log(state);
+  const userData = JSON.parse(localStorage.getItem('User'));
+  let rows = [];
+
+  useEffect(() => {
+    console.log("before api", state);
+      console.log('if statement', state);
+      API.getBills(userData._id).then((result) => {
+        console.log("useEffect", result);
+        return rows = result.data;
+      });
+  }, [state]);
+
   //sorting by date or amount
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -78,14 +95,14 @@ export default function EnhancedTable() {
       return 1;
     }
     return 0;
-  }  
+  }
 
   function getComparator(order, orderBy) {
     return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
-  
+
   function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -101,7 +118,6 @@ export default function EnhancedTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -147,25 +163,6 @@ export default function EnhancedTable() {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
-
-  const [state, dispatch] = useUserContext();
-
-  function createData(state) {
-    API.getBills(state.user.data._id)
-    .then((result) => {
-      console.log(result);
-      return result.json(result)});
-  }
-  const billsData = {
-    name: props.name,
-    date: props.date,
-    frequency: props.frequency,
-    amount: prop.amount
-  }
-
-  const rows = [ ];
-  createData.map(rows)
-
   //render table
   return (
     <Container maxWidth="lg" className={classes.table}>
@@ -193,34 +190,38 @@ export default function EnhancedTable() {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
-                  // return (
-                  //   <StyledTableRow
-                  //     hover
-                  //     onClick={(event) => handleClick(event, row.name)}
-                  //     role="checkbox"
-                  //     aria-checked={isItemSelected}
-                  //     tabIndex={-1}
-                  //     key={row.name}
-                  //     selected={isItemSelected}
-                  //   >
-                  //     <StyledTableCell padding="checkbox">
-                  //       <Checkbox
-                  //         checked={isItemSelected}
-                  //         inputProps={{ "aria-labelledby": labelId }}
-                  //       />
-                  //     </StyledTableCell>
-                  //     <StyledTableCell
-                  //       component="th"
-                  //       id={labelId}
-                  //       scope="row"
-                  //       padding="none"
-                  //     >
-                  //       {row.name}
-                  //     </StyledTableCell>
-                  //     <StyledTableCell align="right">$ {row.amount}</StyledTableCell>
-                  //     <StyledTableCell align="right">{row.date}</StyledTableCell>
-                  //   </StyledTableRow>
-                  // );
+                  return (
+                    <StyledTableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.name)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.name}
+                      selected={isItemSelected}
+                    >
+                      <StyledTableCell padding="checkbox">
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </StyledTableCell>
+                      <StyledTableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                        {row.name}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        $ {row.amount}
+                      </StyledTableCell>
+                      <StyledTableCell align="right">
+                        {row.date}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  );
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>

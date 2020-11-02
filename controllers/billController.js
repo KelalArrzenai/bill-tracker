@@ -1,4 +1,4 @@
-const db = require("../models/bill");
+const db = require("../models/");
 
 module.exports = {
   findByUserId: function(req, res) {
@@ -8,6 +8,7 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   create: function(req, res) {
+      console.log('reqbody',req.body);
     db.Bill
       .create(req.body)
       .then(data => res.json(data))
