@@ -15,10 +15,11 @@ const reducer = (state, action) => {
       break;  
     case 'get':
       API.getUser(action.data.email)
-        .then(result => {
+        .then((result) => {
+          console.log('GET RESULTS', result);
           return { ...state, result };
         })
-        .then(() => console.log(state))
+        .then((state) => console.log('GET INITIAL', state))
         .catch(err => console.log(err));
       break;  
     default:
