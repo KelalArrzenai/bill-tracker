@@ -40,47 +40,47 @@ const useToolbarStyles = makeStyles((theme) => ({
 //Our hidden toolbar that appears when a bill is selected viacheckbox
 export default function BillsToolbar (props) {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, selected } = props;
   // const [state, dispatch] = useUserContext();
 
-  var dayjs = require('dayjs');
-  var currDay = dayjs();
-  const curDueDate = dayjs().format('MMMM DD');
+  const dayjs = require('dayjs');
+  // var currDay = dayjs();
+  // const curDueDate = dayjs().format('MMMM DD');
 
-  function weeklyRecur(d) {
-    const addWeek = dayjs(d).add(7, 'day').format('MMM-DD');
-    return addWeek;
-  }
+  // function weeklyRecur(d) {
+  //   const addWeek = dayjs(d).add(7, 'day').format('MMM-DD');
+  //   return addWeek;
+  // }
 
-  function fortnightlyRecur(d) {
-    const addFortnight = dayjs(d).add(15, 'day').format('MMM-DD');
-    return addFortnight;
-  }
+  // function fortnightlyRecur(d) {
+  //   const addFortnight = dayjs(d).add(15, 'day').format('MMM-DD');
+  //   return addFortnight;
+  // }
 
-  function monthlyRecur(d) {
-    const addMonth = dayjs(d).add(1, 'month').format('MMM-DD');
-    return addMonth;
-  }
+  // function monthlyRecur(d) {
+  //   const addMonth = dayjs(d).add(1, 'month').format('MMM-DD');
+  //   return addMonth;
+  // }
 
-  function setNewDate(state){
-    let currDate = state.date;
-    if(state.frequency === "once"){
-      //delete from table
-    }else if(state.frequency === 7){
-      var newDate = weeklyRecur(currDate);
-      return newDate;
-    }else if(state.frequency === 15){
-      var newDate = fortnightlyRecur(currDate);
-      return newDate;
-    }else if(state.frequency === 30){
-      var newDate = monthlyRecur(currDate);
-      return newDate;
-    }
-    console.log(newDate);
-  }
+  // function setNewDate(state){
+  //   let currDate = state.date;
+  //   if(state.frequency === "once"){
+  //     //delete from table
+  //   }else if(state.frequency === 7){
+  //     var newDate = weeklyRecur(currDate);
+  //     return newDate;
+  //   }else if(state.frequency === 15){
+  //     var newDate = fortnightlyRecur(currDate);
+  //     return newDate;
+  //   }else if(state.frequency === 30){
+  //     var newDate = monthlyRecur(currDate);
+  //     return newDate;
+  //   }
+  //   console.log(newDate);
+  // }
 
   function deleteBill(props) {
-    console.log(props);
+    console.log(selected);
     API.deleteBill(props._id)
       .then((res) => {
         window.location.reload();
@@ -149,7 +149,7 @@ export default function BillsToolbar (props) {
               aria-label="delete"
               color="secondary"
               size="small"
-              onClick={() => deleteBill()}
+              onClick={() => deleteBill(props._id)}
             >
               <DeleteForeverIcon /> Delete
             </IconButton>

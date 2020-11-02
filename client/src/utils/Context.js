@@ -10,7 +10,9 @@ const reducer = (state, action) => {
       API.createUser(action.data)
         .then((result) => {
           console.log('CREATE RESULT', result);
+          
           return { ...state, user: result };
+          
         })
         .then((state) => {console.log('INITIAL STATE', state)})
         .catch(err => console.log(err));
