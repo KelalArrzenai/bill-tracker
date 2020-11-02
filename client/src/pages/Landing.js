@@ -6,7 +6,7 @@ import Table from "../components/table/Table";
 import Header from "../components/header/Header";
 import { useUserContext } from '../utils/Context';
 
-  export default function User() {
+  export default function User() {    
 
     return (
       <Container component="main" maxWidth="lg">

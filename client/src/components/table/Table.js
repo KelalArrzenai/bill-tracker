@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -10,13 +10,17 @@ import {
   Paper,
   Checkbox,
   Container,
+  IconButton
 } from "@material-ui/core";
+import HistoryIcon from "@material-ui/icons/History";
 
 import API from "../../utils/API";
 import NewBill from "../newBill/NewBill";
 import BillsToolbar from "./Toolbar";
 import BillsTableHead from "./TableHead";
+
 import { useUserContext } from "../../utils/Context";
+
 
 const StyledTableCell = withStyles((theme) => ({
   body: {
@@ -61,23 +65,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //begin export default of our TABLE
-export default function EnhancedTable() {
+export default function EnhancedTable(props) {
   const classes = useStyles();
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("amount");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("amount");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);
 
   //sorting by date or amount
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
+    } if (b[orderBy] > a[orderBy]) {
       return 1;
-    }
-    return 0;
+    } return 0;
   }  
 
   function getComparator(order, orderBy) {
@@ -101,7 +104,6 @@ export default function EnhancedTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -144,8 +146,14 @@ export default function EnhancedTable() {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  function getUserBills(){
+    API.getBills()
+      .then(results => {
+        console.log(results.data);
+        const tempRows = rows.concat(results.data);
+        setRows(tempRows)
+      })
+  }
 
 
   const [state, dispatch] = useUserContext();
@@ -170,8 +178,16 @@ export default function EnhancedTable() {
   return (
     <Container maxWidth="lg" className={classes.table}>
       <Paper className={classes.paper}>
-        <BillsToolbar numSelected={selected.length} />
-        <TableContainer>
+        <BillsToolbar numSelected={selected.length} selected={selected} />
+          <TableContainer>
+            <IconButton
+              aria-label="Paid"
+              color="primary"
+              size="small"
+              onClick={() => getUserBills()}
+            >
+              <HistoryIcon fontSize="med" /> Get My Bills
+            </IconButton>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -222,15 +238,11 @@ export default function EnhancedTable() {
                   //   </StyledTableRow>
                   // );
                 })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
+            
             </TableBody>
           </Table>
         </TableContainer>
-        <NewBill />
+        <NewBill onClose={() => {getUserBills()}}/>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
