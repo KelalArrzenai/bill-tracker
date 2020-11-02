@@ -15,21 +15,12 @@ import {
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import API from "../../utils/API";
-const fs = require('fs');
-const path = require('path');
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
   return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
   };
 }
 
@@ -45,12 +36,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function SimpleModal() {
+export default function NewBill(props) {
+  const dayjs = require('dayjs');
+  const onClose = props.onClose;
   const classes = useStyles();
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [modalStyle] = useState(getModalStyle);
+  const [open, setOpen] = useState(false);
   const [form, setForm] = useState({});
   const [state, dispatch] = useUserContext();
+
   
   function addBill(props) {
     console.log(props);
@@ -60,22 +54,29 @@ export default function SimpleModal() {
       .catch((err) => console.log(err));
   }
 
+  const [rows, setRows] = useState([]);
+
+  function getUserBills(){
+    API.getBills()
+      .then(results => {
+        console.log(results.data);
+        const tempRows = rows.concat(results.data);
+        setRows(tempRows)
+      })
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    onClose();
   };
-
-  // function writeJson(props){
-  //   fs.writeFile('../../data/bills.json', JSON.stringify(props), (err) => {
-  //     if (err) console.log('Error writing file:', err)
-  //   })
-  // }
 
   function handleSubmit() {
     //grab the userID and put in newbill obj
+
     console.log(state);
     console.log(form);
     const userData = JSON.parse(localStorage.getItem('User'));
@@ -92,11 +93,15 @@ export default function SimpleModal() {
     console.log(form);   
     // writeJson(form);
     handleClose();
+
   }
 
   const handleChange = (e) => {
     const name = e.target.name;
-    const value = e.target.value;
+    let value = e.target.value;
+    if(name === "date"){
+      value = dayjs(value).format('MMM-DD-YYYY');
+    }
 
     setForm({ ...form, [name]: value });
   };
@@ -146,7 +151,7 @@ export default function SimpleModal() {
                   label="Select Date"
                   type="date"
                   name="date"
-                  format="yyyy/MM/dd"
+                  format="MM/DD"
                   required
                   fullWidth
                   onChange={(e) => handleChange(e)}

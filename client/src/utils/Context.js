@@ -11,6 +11,7 @@ const reducer = (state, action) => {
       API.createUser(action.data)
         .then((result) => {
           console.log('CREATE RESULT', result);
+
           localStorage.setItem('User', result.data);
           return { ...state, user: result.data };
         })

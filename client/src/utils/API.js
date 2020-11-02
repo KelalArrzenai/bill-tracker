@@ -11,7 +11,7 @@ export default {
     return axios.delete("/api/users/" + userId);
   },
   getBills: function(userId) {
-    return axios.get("/api/bills/" + userId);
+    return axios.get("/api/bills/"); //add back userID when state is available
   },
   saveBill: function(billData) {
     return axios.post("/api/bills/", billData);
