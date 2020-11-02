@@ -1,4 +1,5 @@
-import React, { useRef, Redirect } from "react";
+import React, { useState } from "react";
+import { useHistory } from 'react-router-dom';
 import { useUserContext } from '../../utils/Context';
 import { Link } from 'react-router-dom';
 import { Button, TextField, FormControlLabel, Checkbox, Grid, Typography } from '@material-ui/core';
@@ -22,13 +23,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Form() {
-  const dispatch = useUserContext();
+  const [state, dispatch] = useUserContext();
   const classes = useStyles();
-  const emailRef =useRef();
+  const history = useHistory();
 
-  // function handleSubmit(event) {
-  //   const { name, value } = event.target;
-  // }
+  const [form, setForm] = useState({});
+
+  function handleSubmit() {
+    console.log(form);
+    if (!form.email){
+      console.log('Please enter your email');
+      return;
+    }
+    else if (!form.password){
+      console.log('Please enter your password');
+      return;
+    }
+    else {
+      dispatch({type: 'get', data: form});
+      routeChange();
+    }
+  }
+
+  const handleChange = (e) => {
+    const name = e.target.name
+    const value = e.target.value
+    setForm({...form, [name]:value})
+  }
+
+  function routeChange() {
+    console.log('route change function');
+    let path = '/landing';
+    history.push(path);
+  }
+  
 
   return (
     <div className={classes.paper}>
@@ -46,7 +74,7 @@ export default function Form() {
           name="email"
           autoComplete="email"
           autoFocus
-          ref={emailRef}
+          onChange={(e) => handleChange(e)}
         />
         <TextField
           variant="outlined"
@@ -59,6 +87,7 @@ export default function Form() {
           type="password"
           id="password"
           autoComplete="current-password"
+          onChange={(e) => handleChange(e)}
         />
         <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
@@ -70,9 +99,9 @@ export default function Form() {
           variant="contained"
           color="primary"
           className={classes.submit}
-          onSubmit={() => {
-            dispatch('set');
-            return <Redirect to="/landing" />;
+          onClick={(e) => {
+            e.preventDefault();
+            handleSubmit();
           }}
         >
           Sign In

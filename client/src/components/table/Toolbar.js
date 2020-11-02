@@ -87,7 +87,7 @@ export default function BillsToolbar (props) {
       })
       .catch((err) => console.log(err));
   }
-
+  
   function notify (props) {
     addNotification({
       title: 'Yay! This bill has been paid',

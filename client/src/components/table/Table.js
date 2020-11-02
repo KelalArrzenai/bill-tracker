@@ -19,11 +19,8 @@ import NewBill from "../newBill/NewBill";
 import BillsToolbar from "./Toolbar";
 import BillsTableHead from "./TableHead";
 
-function createData(name, date, frequency, amount ) {
-  return { name, date, frequency, amount };
-}
+import { useUserContext } from "../../utils/Context";
 
-// const rows = [{...props}];
 
 const StyledTableCell = withStyles((theme) => ({
   body: {
@@ -158,6 +155,25 @@ export default function EnhancedTable(props) {
       })
   }
 
+
+  const [state, dispatch] = useUserContext();
+
+  function createData(state) {
+    API.getBills(state.user.data._id)
+    .then((result) => {
+      console.log(result);
+      return result.json(result)});
+  }
+  const billsData = {
+    name: props.name,
+    date: props.date,
+    frequency: props.frequency,
+    amount: prop.amount
+  }
+
+  const rows = [ ];
+  createData.map(rows)
+
   //render table
   return (
     <Container maxWidth="lg" className={classes.table}>
@@ -193,34 +209,34 @@ export default function EnhancedTable(props) {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <StyledTableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <StyledTableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </StyledTableCell>
-                      <StyledTableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </StyledTableCell>
-                      <StyledTableCell align="right">$ {row.amount}</StyledTableCell>
-                      <StyledTableCell align="right">{row.date}</StyledTableCell>
-                    </StyledTableRow>
-                  );
+                  // return (
+                  //   <StyledTableRow
+                  //     hover
+                  //     onClick={(event) => handleClick(event, row.name)}
+                  //     role="checkbox"
+                  //     aria-checked={isItemSelected}
+                  //     tabIndex={-1}
+                  //     key={row.name}
+                  //     selected={isItemSelected}
+                  //   >
+                  //     <StyledTableCell padding="checkbox">
+                  //       <Checkbox
+                  //         checked={isItemSelected}
+                  //         inputProps={{ "aria-labelledby": labelId }}
+                  //       />
+                  //     </StyledTableCell>
+                  //     <StyledTableCell
+                  //       component="th"
+                  //       id={labelId}
+                  //       scope="row"
+                  //       padding="none"
+                  //     >
+                  //       {row.name}
+                  //     </StyledTableCell>
+                  //     <StyledTableCell align="right">$ {row.amount}</StyledTableCell>
+                  //     <StyledTableCell align="right">{row.date}</StyledTableCell>
+                  //   </StyledTableRow>
+                  // );
                 })}
             
             </TableBody>
