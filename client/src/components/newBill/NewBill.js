@@ -78,14 +78,17 @@ export default function NewBill(props) {
 
   //haley's handlesubmit that was populating table
   function handleSubmit() {
-    //grab the userID and put in newbill obj
-    dispatch({ type: "set", data: form });
-    addBill(form)
-    .then(() => {
-      getUserBills();
-      handleClose();
+    const billData = 
+    {
+      userId: state.user._id,
+      name: form.name, 
+      date: form.date,
+      frequency: form.frequency,
+      amount: form.amount
     }
-    )
+    //grab the userID and put in newbill obj
+    dispatch({ type: "setBill", data: billData });
+    handleClose();
   }
 
   // function handleSubmit() {

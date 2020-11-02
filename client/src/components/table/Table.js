@@ -9,7 +9,8 @@ import {
   TableRow,
   Paper,
   Container,
-  IconButton
+  IconButton,
+  Checkbox
 } from "@material-ui/core";
 
 import { useUserContext } from "../../utils/Context";
@@ -70,20 +71,24 @@ export default function EnhancedTable(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
+  const [state, dispatch] = useUserContext();
 
   // let rows = [];
   // const [state, dispatch] = useUserContext();
   // console.log(state);
   // const userData = JSON.parse(localStorage.getItem('User'));
 
-  // useEffect(() => {
-  //   console.log("before api", state);
-  //     console.log('if statement', state);
-  //     API.getBills(userData._id).then((result) => {
-  //       console.log("useEffect", result);
-  //       return rows = result.data;
-  //     });
-  // }, [state]);
+  useEffect(() => {
+    if(state.user) {
+      dispatch({type: 'getBills', userId: state.user._id})
+    }
+  }, [state.user]);
+
+  useEffect(() => {
+    if (state.bills) {
+      setRows(state.bills);
+    }
+  }, [state.bills])
 
   //sorting by date or amount
   function descendingComparator(a, b, orderBy) {
@@ -165,12 +170,13 @@ export default function EnhancedTable(props) {
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   function getUserBills(){
-    API.getBills()  //state._id
-      .then(results => {
-        console.log(results.data);
-        const tempRows = rows.concat(results.data);
-        setRows(tempRows)
-      })
+    dispatch({type: 'getBills', userId: state.user._id})
+    // API.getBills(state.user._id)  //state._id
+    //   .then(results => {
+    //     console.log(results.data);
+    //     const tempRows = rows.concat(results.data);
+    //     setRows(tempRows)
+    //   })
   }  
 
   //render table

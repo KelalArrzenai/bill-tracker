@@ -9,7 +9,6 @@ const reducer = (state, action) => {
 
   switch (action.type) {
     case 'SET_USER':
-      console.log(action.data);
       return { ...state, user: action.data };
         // .then((result) => {
         //   console.log('CREATE RESULT', result.data);
@@ -19,18 +18,28 @@ const reducer = (state, action) => {
         // })
         // .then((state) => {console.log('INITIAL STATE', state);})
         // .catch(err => console.log(err));
-      break;  
-    case 'get':
-      // const getResult = await API.getUser(action.data.email);
-      // return { ...state, user: getResult.data };
+    case 'GET_USER':
+      return { ...state, user: action.data };
         // .then((result) => {
         //   console.log('GET RESULTS', result);
         //   localStorage.setItem('User', JSON.stringify(result.data));
         //   return { ...state, user: result.data };
         // })
         // .then((state) => console.log('GET INITIAL', state))
-        // .catch(err => console.log(err));
-      break;  
+        // .catch(err => console.log(err)); 
+    case 'GET_BILLS':
+      return { ...state, bills: action.data };
+
+    case 'SET_BILL':
+      action.dispatch({type: 'getBills', userId: action.id});
+      return state;
+    case 'UPDATE_BILL':
+      action.dispatch({type: 'getBills', userId: action.id});
+      return state;
+      
+    case 'REMOVE_BILL':
+      action.dispatch({type: 'getBills', userId: action.id});
+      return state;
     default:
       return state;
   }
@@ -40,6 +49,31 @@ const asyncActionHandlers = {
     const result = await API.createUser(action.data);
     console.log(result.data);
     dispatch({type: "SET_USER", data: result.data});
+  },
+  get: ({ dispatch }) => async (action) => {
+    const result = await API.getUser(action.data.email);
+    console.log(result.data);
+    dispatch({type: "GET_USER", data: result.data});
+  },
+  setBill: ({ dispatch }) => async (action) => {
+    const result = await API.saveBill(action.data);
+    console.log(result.data);
+    dispatch({type: "SET_BILL", data: result.data, id: action.id, dispatch});
+  },
+  getBills: ({ dispatch }) => async (action) => {
+    const result = await API.getBills(action.userId);
+    console.log(result.data);
+    dispatch({type: "GET_BILLS", data: result.data});  
+  },
+  updateBill: ({ dispatch }) => async (action) => {
+    const result = await API.updateBill(action.billId);
+    console.log(result.data);
+    dispatch({type: "UPDATE_BILL", data: result.data, id: action.id, dispatch});
+  },
+  removeBill: ({ dispatch }) => async (action) => {
+    const result = await API.deleteBill(action.billId);
+    console.log(result.data);
+    dispatch({type: "REMOVE_BILL", data: result.data, id: action.id, dispatch});
   }
 }
 

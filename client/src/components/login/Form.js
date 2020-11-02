@@ -36,10 +36,6 @@ export default function Form() {
 
   const [form, setForm] = useState({});
 
-  async function dispatcher() {
-    await dispatch({ type: "get", data: form });
-  }
-
   function handleSubmit() {
     console.log(form);
     if (!form.email) {
@@ -51,21 +47,22 @@ export default function Form() {
     } else {
       // dispatcher();
       dispatch({type:'get', data: form});
-      setTimeout(()=>{routeChange();}, 5000);
     }
   }
-
+  
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setForm({ ...form, [name]: value });
   };
-
+  
   function routeChange() {
-    let path = "/landing";
-    history.push(path);
+    history.push(`/${state.user._id}` );
   }
-
+  
+  if (state.user) {
+    routeChange();
+  }
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h4" color="secondary">
