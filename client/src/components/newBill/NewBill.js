@@ -44,17 +44,19 @@ export default function NewBill(props) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({});
   const [state, dispatch] = useUserContext();
+  const [rows, setRows] = useState([]);
 
   
   function addBill(props) {
     console.log(props);
-    API.saveBill(props)
+    return API.saveBill({...props})
       .then((res) => {
+        console.log(res);
+        return res.data;
       })
       .catch((err) => console.log(err));
   }
 
-  const [rows, setRows] = useState([]);
 
   function getUserBills(){
     API.getBills()
@@ -74,27 +76,39 @@ export default function NewBill(props) {
     onClose();
   };
 
+  //haley's handlesubmit that was populating table
   function handleSubmit() {
     //grab the userID and put in newbill obj
-
-    console.log(state);
-    console.log(form);
-    const userData = JSON.parse(localStorage.getItem('User'));
-    console.log(userData);
-    const billData = 
-    {
-      userId: userData._id,
-      name: form.name, 
-      date: form.date,
-      frequency: form.frequency,
-      amount: form.amount
+    dispatch({ type: "set", data: form });
+    addBill(form)
+    .then(() => {
+      getUserBills();
+      handleClose();
     }
-    addBill(billData);
-    console.log(form);   
-    // writeJson(form);
-    handleClose();
-
+    )
   }
+
+  // function handleSubmit() {
+  //   //grab the userID and put in newbill obj
+
+  //   console.log(state);
+  //   console.log(form);
+  //   const userData = JSON.parse(localStorage.getItem('User'));
+  //   console.log(userData);
+  //   const billData = 
+  //   {
+  //     userId: userData._id,
+  //     name: form.name, 
+  //     date: form.date,
+  //     frequency: form.frequency,
+  //     amount: form.amount
+  //   }
+  //   addBill(billData);
+  //   console.log(form);   
+  //   // writeJson(form);
+  //   handleClose();
+
+  // }
 
   const handleChange = (e) => {
     const name = e.target.name;

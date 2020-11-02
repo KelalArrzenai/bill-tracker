@@ -54,8 +54,12 @@ export default function Form() {
     }
     else {
       dispatch({type:'set', data: form})
-      .then(console.log(state));
-      routeChange();
+      .then(() => {
+        dispatch({type: "set", data: state});
+        (console.log(state));
+        routeChange(state._id);
+
+      })
     }
   }
 
@@ -66,6 +70,7 @@ export default function Form() {
   }
 
   function routeChange(props) {
+    console.log(props);
     let path = `/${props._id}`;
     history.push(path);
   }
