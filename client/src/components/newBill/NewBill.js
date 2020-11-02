@@ -44,17 +44,17 @@ export default function NewBill(props) {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({});
   const [state, dispatch] = useUserContext();
-  const [rows, setRows] = useState([]);
 
+  
   function addBill(props) {
     console.log(props);
-    return API.saveBill({...props})
+    API.saveBill(props)
       .then((res) => {
-        console.log(res);
-        return res.data;
       })
       .catch((err) => console.log(err));
   }
+
+  const [rows, setRows] = useState([]);
 
   function getUserBills(){
     API.getBills()
@@ -76,13 +76,24 @@ export default function NewBill(props) {
 
   function handleSubmit() {
     //grab the userID and put in newbill obj
-    dispatch({ type: "set", data: form });
-    addBill(form)
-    .then(() => {
-      getUserBills();
-      handleClose();
+
+    console.log(state);
+    console.log(form);
+    const userData = JSON.parse(localStorage.getItem('User'));
+    console.log(userData);
+    const billData = 
+    {
+      userId: userData._id,
+      name: form.name, 
+      date: form.date,
+      frequency: form.frequency,
+      amount: form.amount
     }
-    )
+    addBill(billData);
+    console.log(form);   
+    // writeJson(form);
+    handleClose();
+
   }
 
   const handleChange = (e) => {
