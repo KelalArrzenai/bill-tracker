@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
   Table,
@@ -16,31 +16,12 @@ import {
 import { useUserContext } from "../../utils/Context";
 import HistoryIcon from "@material-ui/icons/History";
 
-
 import API from "../../utils/API";
 import NewBill from "../newBill/NewBill";
 import BillsToolbar from "./Toolbar";
 import BillsTableHead from "./TableHead";
 
-function createData(name, amount, date, frequency) {
-  return { name, amount, date, frequency };
-}
-
-const StyledTableCell = withStyles((theme) => ({
-  body: {
-    fontSize: 16,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
-
-//Start of TABLE info
+//TABLE info - styles
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -67,6 +48,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const StyledTableCell = withStyles((theme) => ({
+  body: {
+    fontSize: 16,
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+
 //begin export default of our TABLE
 export default function EnhancedTable(props) {
   const classes = useStyles();
@@ -77,19 +72,19 @@ export default function EnhancedTable(props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);
 
-  const [state, dispatch] = useUserContext();
-  console.log(state);
-  const userData = JSON.parse(localStorage.getItem('User'));
-  let rows = [];
+  // let rows = [];
+  // const [state, dispatch] = useUserContext();
+  // console.log(state);
+  // const userData = JSON.parse(localStorage.getItem('User'));
 
-  useEffect(() => {
-    console.log("before api", state);
-      console.log('if statement', state);
-      API.getBills(userData._id).then((result) => {
-        console.log("useEffect", result);
-        return rows = result.data;
-      });
-  }, [state]);
+  // useEffect(() => {
+  //   console.log("before api", state);
+  //     console.log('if statement', state);
+  //     API.getBills(userData._id).then((result) => {
+  //       console.log("useEffect", result);
+  //       return rows = result.data;
+  //     });
+  // }, [state]);
 
   //sorting by date or amount
   function descendingComparator(a, b, orderBy) {
@@ -170,6 +165,14 @@ export default function EnhancedTable(props) {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
+  function getUserBills(){
+    API.getBills()  //state._id
+      .then(results => {
+        console.log(results.data);
+        const tempRows = rows.concat(results.data);
+        setRows(tempRows)
+      })
+  }  
 
   //render table
   return (
