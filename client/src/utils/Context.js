@@ -1,23 +1,34 @@
 import React, { useReducer, useContext } from "react";
+import { Redirect } from 'react-router-dom';
 import API from "./API";
 
 const UserContext = React.createContext();
 const { Provider } = UserContext;
-
 const reducer = (state, action) => {
+
   switch (action.type) {
     case 'set':
       API.createUser(action.data)
         .then((result) => {
+<<<<<<< HEAD
           return { ...state, user: result };
         })
+=======
+          console.log('CREATE RESULT', result);
+
+          localStorage.setItem('User', result.data);
+          return { ...state, user: result.data };
+        })
+        .then((state) => {console.log('INITIAL STATE', state);})
+>>>>>>> 1bf940a4ceb8cf162e23f3c5fa4411e11244a4ea
         .catch(err => console.log(err));
       break;  
     case 'get':
       API.getUser(action.data.email)
         .then((result) => {
           console.log('GET RESULTS', result);
-          return { ...state, result };
+          localStorage.setItem('User', JSON.stringify(result.data));
+          return { ...state, user: result.data };
         })
         .then((state) => console.log('GET INITIAL', state))
         .catch(err => console.log(err));
@@ -27,7 +38,14 @@ const reducer = (state, action) => {
   }
 };
 
-const UserProvider = ({ value = null, ...props }) => {
+const UserProvider = ({ value = null
+//   {_id:"5f9c612bf3353008d8b1d238", 
+//   firstName:"test", 
+//   lastName:"test", 
+//   email:"test@test.com", 
+//   password:"password"
+// }
+, ...props }) => {
   const [state, dispatch] = useReducer(reducer, { user: value });
 
   return <Provider value={[state, dispatch]} {...props} />;

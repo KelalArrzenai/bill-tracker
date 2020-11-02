@@ -1,27 +1,19 @@
 # BILL TRACKER
 
 ## Description
+Bill Tracker is a web-based bill tracking application that allows users to keep a log of monthly bills. Users have the ability to create an account, create and track bills by date. Active users will maintian an 
 
 ## Screen Shots
 
 ## Main Photo
-<span style="display:block;text-align:center">![Test Automation](client/public/images/shot1.png)</span>
+<span style="display:block;text-align:center">![Header Page](client/public/images/header.png)</span>
 
-## Screen Shots (Links)
-
-| | | |
-|:-------------------------:|:-------------------------:|:-------------------------:|
-|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png"> photo 1 |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 2 |<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 3 |
-|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 4  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 5|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 6|
-|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 7  |  <img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 8|<img width="1604" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://fooddiversity.today/wp-content/uploads/2016/05/placeholder.png">photo 9|
-
-
-## Screen Shots (reletive)
+## Screen Shots
 
 | | |
 |:-------------------------:|:-------------------------:|
-|![Workout-Tracker-Demo](client/public/images/shot1.png) photo 1| ![Workout-Tracker-Demo](client/public/images/shot2.png) photo 2|
-|![Workout-Tracker-Demo](client/public/images/shot3.png) photo 3| ![Workout-Tracker-Demo](client/public/images/shot4.png)photo 4|
+|![Workout-Tracker-Demo](client/public/images/shot1.png) screen shot 1| ![Workout-Tracker-Demo](client/public/images/shot2.png) screen shot 2|
+|![Workout-Tracker-Demo](client/public/images/shot3.png) screen shot 3| ![Workout-Tracker-Demo](client/public/images/shot4.png) screen shot 4|
 
 ## Technology
 * [MongoBD](https://www.mongodb.com/)
@@ -33,15 +25,19 @@
 * [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
 * [Boostrap](https://getbootstrap.com/)
 * [Favicon](https://favicon.io/favicon-converter/)
+* [Mongoose](https://mongoosejs.com/docs/)
 * [WAMG](https://app-manifest.firebaseapp.com/)
 
 ## Installation
 
+### License  
+![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg) <br> *MIT License*
+
 ## Authors
-Haley Myers
-Khalil Goldstein
-Chris Reed
-Payton Banks
+- [Haley Myers](https://github.com/haleynmyers)
+- [Khalil Goldstein](https://github.com/KelalArrzenai)
+- [Chris Reed](https://github.com/cr31293)
+- [Payton Banks](https://github.com/paytonbanks)
 
 ## Project Site
 *Link:*

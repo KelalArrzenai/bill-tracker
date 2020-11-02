@@ -1,20 +1,27 @@
 import React, { useState } from "react";
-import { useHistory } from 'react-router-dom';
-import { useUserContext } from '../../utils/Context';
-import { Link } from 'react-router-dom';
-import { Button, TextField, FormControlLabel, Checkbox, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
+import { useHistory } from "react-router-dom";
+import { useUserContext } from "../../utils/Context";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Grid,
+  Typography,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import API from "../../utils/API";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -29,40 +36,41 @@ export default function Form() {
 
   const [form, setForm] = useState({});
 
+  async function dispatcher() {
+    await dispatch({ type: "get", data: form });
+  }
+
   function handleSubmit() {
     console.log(form);
-    if (!form.email){
-      console.log('Please enter your email');
+    if (!form.email) {
+      console.log("Please enter your email");
       return;
-    }
-    else if (!form.password){
-      console.log('Please enter your password');
+    } else if (!form.password) {
+      console.log("Please enter your password");
       return;
-    }
-    else {
-      dispatch({type: 'get', data: form});
-      routeChange();
+    } else {
+      // dispatcher();
+      dispatch({type:'get', data: form});
+      setTimeout(()=>{routeChange();}, 5000);
     }
   }
 
   const handleChange = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-    setForm({...form, [name]:value})
-  }
+    const name = e.target.name;
+    const value = e.target.value;
+    setForm({ ...form, [name]: value });
+  };
 
   function routeChange() {
-    console.log('route change function');
-    let path = '/landing';
+    let path = "/landing";
     history.push(path);
   }
-  
 
   return (
     <div className={classes.paper}>
       <Typography component="h1" variant="h4" color="secondary">
         Login to Bill Tracker
-        </Typography>
+      </Typography>
       <form className={classes.form} noValidate>
         <TextField
           variant="outlined"
@@ -105,7 +113,7 @@ export default function Form() {
           }}
         >
           Sign In
-          </Button>
+        </Button>
         <Grid container>
           <Grid item>
             <Link to="/signup" variant="body2">
@@ -115,5 +123,5 @@ export default function Form() {
         </Grid>
       </form>
     </div>
-  )
+  );
 }
