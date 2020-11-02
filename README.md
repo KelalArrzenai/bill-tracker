@@ -1,12 +1,12 @@
 # BILL TRACKER
 
 ## Description
-Bill Tracker is a web-based bill tracking application that allows users to keep a log of monthly bills. Users have the ability to create an account, create and track bills by date. Active users will maintian an 
+Bill Tracker is a web-based bill tracking and remidner  application. Users will be able to keep a log of monthly bills and have the ability to create an account, create and track bills by date. Active users will maintian an active list of current bills due with the ability to add and remove each bill. 
 
 ## Screen Shots
 
 ## Main Photo
-<span style="display:block;text-align:center">![Header Page](client/public/images/header.png)</span>
+<span style="display:block">![Header Page](client/public/images/header.png)</span>
 
 ## Screen Shots
 
