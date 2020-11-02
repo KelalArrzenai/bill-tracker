@@ -1,15 +1,8 @@
 import React from "react";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TablePagination,
-  TableRow,
-  Paper,
-  Checkbox,
-  Container,
+  StyledTableCell,
+  StyledTableCell,
+  Checkbox
 } from "@material-ui/core";
 
 import API from "../../utils/API";
@@ -18,7 +11,7 @@ import BillsToolbar from "./Toolbar";
 import BillsTableHead from "./TableHead";
 import { useUserContext } from "../../utils/Context";
 
-export default BillsRow (
+export default function BillsRow() {
   return (
     <StyledTableRow
       hover
@@ -47,4 +40,4 @@ export default BillsRow (
       <StyledTableCell align="right">{row.date}</StyledTableCell>
     </StyledTableRow>
   );
-)
+}

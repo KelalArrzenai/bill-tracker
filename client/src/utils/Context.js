@@ -9,14 +9,12 @@ const reducer = (state, action) => {
     case 'set':
       API.createUser(action.data)
         .then((result) => {
-          console.log('CREATE RESULT', result);
           return { ...state, user: result };
         })
-        .then((state) => {console.log('INITIAL STATE', state)})
         .catch(err => console.log(err));
       break;  
     case 'get':
-      API.getUser(state.email)
+      API.getUser(action.data.email)
         .then(result => {
           return { ...state, result };
         })

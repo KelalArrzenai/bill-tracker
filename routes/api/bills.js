@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const billsController = require("../../controllers/billController");
 
-router.route("/")
-    .get(billsController.findByUserId)
+router
+    .route("/")
     .post(billsController.create);
 
 router

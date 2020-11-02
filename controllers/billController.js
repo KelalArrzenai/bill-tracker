@@ -3,7 +3,7 @@ const db = require("../models/bill");
 module.exports = {
   findByUserId: function(req, res) {
     db.Bill
-      .find({ userId: req.params.id })
+      .findAll({ userId: req.params.id })
       .then(data => res.json(data))
       .catch(err => res.status(422).json(err));
   },
