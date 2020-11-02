@@ -1,5 +1,5 @@
 import React, { useState }  from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { useUserContext, UserProvider } from '../../utils/Context';
 import { Button, TextField, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -54,12 +54,7 @@ export default function Form() {
     }
     else {
       dispatch({type:'set', data: form})
-      .then(() => {
-        dispatch({type: "set", data: state});
-        (console.log(state));
-        routeChange(state._id);
-
-      })
+      
     }
   }
 
@@ -69,11 +64,12 @@ export default function Form() {
     setForm({...form, [name]:value})
   }
 
-  function routeChange(props) {
-    console.log(props);
-    let path = `/${props._id}`;
-    history.push(path);
-  }
+  console.log("STATE : ", state);
+  // let path = `/${props._id}`;
+  if(state.user){
+    console.log(state.user);
+    history.push(`/${state.user._id}` );
+    }
 
   return (
     <div className={classes.paper}>
