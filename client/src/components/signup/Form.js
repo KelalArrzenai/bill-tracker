@@ -1,6 +1,6 @@
 import React, { useState }  from "react";
 import { useHistory } from 'react-router-dom';
-import { useUserContext } from '../../utils/Context';
+import { useUserContext, UserProvider } from '../../utils/Context';
 import { Button, TextField, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default function Form() {
   const [state, dispatch] = useUserContext();
   const classes = useStyles();
@@ -32,7 +34,7 @@ export default function Form() {
 
   const [form, setForm] = useState({});
   
-  function handleSubmit() {
+  function handleSubmit(props) {
     console.log(form);
     if (!form.firstName){
       console.log('Please enter a first and last name');
@@ -51,7 +53,8 @@ export default function Form() {
       return; 
     }
     else {
-      dispatch({type:'set', data: form});
+      dispatch({type:'set', data: form})
+      .then(console.log(state));
       routeChange();
     }
   }
@@ -62,8 +65,8 @@ export default function Form() {
     setForm({...form, [name]:value})
   }
 
-  function routeChange() {
-    let path = '/landing';
+  function routeChange(props) {
+    let path = `/${props._id}`;
     history.push(path);
   }
 
@@ -133,7 +136,7 @@ export default function Form() {
           className={classes.submit}
           onClick={(e) => {
             e.preventDefault();
-            handleSubmit();
+            handleSubmit(state);
           }}
         >
           Sign Up

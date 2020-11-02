@@ -17,18 +17,11 @@ import NewBill from "../newBill/NewBill";
 import BillsToolbar from "./Toolbar";
 import BillsTableHead from "./TableHead";
 
-function createData(name, amount, date, frequency) {
-  return { name, amount, date, frequency };
+function createData(name, date, frequency, amount ) {
+  return { name, date, frequency, amount };
 }
 
-const rows = [
-  createData("Mortgage", 1000, 1, "monthly"),
-  createData("Water", 45, 25, "monthly"),
-  createData("Child Care", 300, 1, "weekly"),
-  createData("Amazon Prime", 10, 10, "monthly"),
-  createData("Netflix", 15, 15, "monthly"),
-  createData("Internet", 75, 15, "monthly"),
-];
+// const rows = [{...props}];
 
 const StyledTableCell = withStyles((theme) => ({
   body: {
@@ -73,13 +66,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //begin export default of our TABLE
-export default function EnhancedTable() {
+export default function EnhancedTable(props) {
+  // debugger;
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("amount");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rows, setRows] = React.useState([]);
+  // const rows = [ ];
+
+  function getUserBills(){
+    // API.getBills()
+    //   .then(results => {setRows(results) } )
+      // setRows(
+      //   [
+      //     {name: "Mortgage", 
+      //     amount: 1000, 
+      //     date: 1, 
+      //     frequency: "monthly"}
+          // ("Water", 45, 25, "monthly"),
+          // ("Child Care", 300, 1, "weekly"),
+          // ("Amazon Prime", 10, 10, "monthly"),
+          // ("Netflix", 15, 15, "monthly"),
+          // ("Internet", 75, 15, "monthly"),
+      //   ]
+      // );
+  
+  }
+
+  getUserBills();
+
 
   //sorting by date or amount
   function descendingComparator(a, b, orderBy) {
@@ -113,7 +131,6 @@ export default function EnhancedTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
@@ -156,8 +173,8 @@ export default function EnhancedTable() {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows =
+  //   rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   //render table
   return (
@@ -215,11 +232,11 @@ export default function EnhancedTable() {
                     </StyledTableRow>
                   );
                 })}
-              {emptyRows > 0 && (
+              {/* {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>

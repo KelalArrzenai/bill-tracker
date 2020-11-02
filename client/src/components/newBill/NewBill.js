@@ -15,21 +15,12 @@ import {
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import API from "../../utils/API";
-const fs = require('fs');
-const path = require('path');
-
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
   return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
+    top: `50%`,
+    left: `50%`,
+    transform: `translate(-50%, -50%)`,
   };
 }
 
@@ -46,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function addBill(props) {
   console.log(props);
-  API.saveBill(props)
+  API.saveBill({...props})
     .then((res) => {
     })
     .catch((err) => console.log(err));

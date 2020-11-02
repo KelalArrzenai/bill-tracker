@@ -1,4 +1,4 @@
-import React, from 'react';
+import React from 'react';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Copyright from '../components/copyright/Copyright';
@@ -6,7 +6,7 @@ import Table from "../components/table/Table";
 import Header from "../components/header/Header";
 import { useUserContext } from '../utils/Context';
 
-  export default function User() {
+  export default function User() {    
 
     return (
       <Container component="main" maxWidth="lg">
