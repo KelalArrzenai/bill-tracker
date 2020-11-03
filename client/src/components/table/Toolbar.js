@@ -78,10 +78,10 @@ export default function BillsToolbar (props) {
   //   }
   //   console.log(newDate);
   // }
-
+ 
   function deleteBill(props) {
-    console.log(selected);
-    API.deleteBill(props._id)
+    console.log(props);
+    return API.deleteBill(props)
       .then((res) => {
         window.location.reload();
       })
@@ -149,7 +149,7 @@ export default function BillsToolbar (props) {
               aria-label="delete"
               color="secondary"
               size="small"
-              onClick={() => deleteBill(props._id)}
+              onClick={() => deleteBill(selected)}
             >
               <DeleteForeverIcon /> Delete
             </IconButton>
