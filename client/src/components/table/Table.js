@@ -133,12 +133,13 @@ export default function EnhancedTable(props) {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, _id) => {
+    const selectedIndex = selected.indexOf(_id);
+    
     let newSelected = [];
 
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, _id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -150,6 +151,7 @@ export default function EnhancedTable(props) {
       );
     }
     setSelected(newSelected);
+    console.log(newSelected);
   };
 
   //function to handle the pagination: change page
@@ -171,12 +173,6 @@ export default function EnhancedTable(props) {
 
   function getUserBills(){
     dispatch({type: 'getBills', userId: state.user._id})
-    // API.getBills(state.user._id)  //state._id
-    //   .then(results => {
-    //     console.log(results.data);
-    //     const tempRows = rows.concat(results.data);
-    //     setRows(tempRows)
-    //   })
   }  
 
   //render table
@@ -185,14 +181,6 @@ export default function EnhancedTable(props) {
       <Paper className={classes.paper}>
         <BillsToolbar numSelected={selected.length} selected={selected} />
           <TableContainer>
-            <IconButton
-              aria-label="Paid"
-              color="primary"
-              size="small"
-              onClick={() => getUserBills()}
-            >
-              <HistoryIcon fontSize="med" /> Get My Bills
-            </IconButton>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
@@ -211,13 +199,13 @@ export default function EnhancedTable(props) {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected( row._id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <StyledTableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row._id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
